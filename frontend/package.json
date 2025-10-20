@@ -1,0 +1,21 @@
+{
+  "name": "medical-consultation-frontend",
+  "version": "1.0.0",
+  "description": "Frontend for Medical Consultation System",
+  "scripts": {
+    "start": "npx http-server -p 3000 -o",
+    "dev": "npx http-server -p 3000 -o -c-1",
+    "serve": "npx live-server --port=3000 --open=index.html"
+  },
+  "keywords": [
+    "medical",
+    "consultation",
+    "frontend"
+  ],
+  "author": "phuocdai2004",
+  "license": "MIT",
+  "devDependencies": {
+    "http-server": "^14.1.1",
+    "live-server": "^1.2.2"
+  }
+}

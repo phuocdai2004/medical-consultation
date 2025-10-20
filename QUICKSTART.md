@@ -1,6 +1,30 @@
-# 🎉 Automatic Docker CI/CD - READY TO USE!
+# ⚡ Quick Start - Medical Consultation System
 
-## ✅ Single File Setup Complete
+## 🚀 Chạy Project
+
+### **Backend (Terminal 1):**
+```powershell
+cd d:\medical-consultation\backend
+npm start
+```
+✅ API: http://localhost:5000
+
+### **Frontend (Terminal 2):**
+```powershell
+cd d:\medical-consultation\frontend
+npm start
+```
+✅ Web: http://localhost:3000
+
+### **Hoặc chạy TẤT CẢ với Docker:**
+```powershell
+cd d:\medical-consultation
+docker-compose up -d
+```
+
+---
+
+## ✅ CI/CD Setup Complete
 
 You now have **ONE powerful CI/CD workflow**:
 

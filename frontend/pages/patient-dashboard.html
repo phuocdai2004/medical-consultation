@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bảng Điều Khiển Bệnh Nhân - HealthCare</title>
+    <link rel="icon" type="image/x-icon" href="../assets/images/favicon.ico">
+    
+    <!-- CSS Files -->
+    <link href="../assets/css/main.css" rel="stylesheet">
+    <link href="../assets/css/dashboard.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar dashboard-nav">
+        <div class="container">
+            <div class="navbar-brand">
+                <a href="../index.html">
+                    <i class="fas fa-heartbeat"></i>
+                    HealthCare
+                </a>
+            </div>
+            <div class="navbar-nav">
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" id="userDropdown">
+                        <div class="user-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <span class="user-name">Bệnh nhân</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a href="#" class="dropdown-item" onclick="showProfile()">
+                            <i class="fas fa-user"></i> Thông tin cá nhân
+                        </a>
+                        <a href="#" class="dropdown-item" onclick="showSettings()">
+                            <i class="fas fa-cog"></i> Cài đặt
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item" onclick="logout()">
+                            <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Dashboard -->
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="dashboard-sidebar">
+            <div class="sidebar-header">
+                <h3>
+                    <i class="fas fa-user-injured"></i>
+                    Bệnh Nhân
+                </h3>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#overview" class="nav-item active" data-section="overview">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Tổng quan</span>
+                </a>
+                <a href="#appointments" class="nav-item" data-section="appointments">
+                    <i class="fas fa-calendar-check"></i>
+                    <span>Lịch khám</span>
+                    <span class="badge" id="appointmentsBadge">3</span>
+                </a>
+                <a href="#doctors" class="nav-item" data-section="doctors">
+                    <i class="fas fa-user-md"></i>
+                    <span>Tìm bác sĩ</span>
+                </a>
+                <a href="#medical-records" class="nav-item" data-section="medical-records">
+                    <i class="fas fa-file-medical"></i>
+                    <span>Hồ sơ y tế</span>
+                </a>
+                <a href="#prescriptions" class="nav-item" data-section="prescriptions">
+                    <i class="fas fa-prescription-bottle-alt"></i>
+                    <span>Đơn thuốc</span>
+                </a>
+                <a href="#health-tracking" class="nav-item" data-section="health-tracking">
+                    <i class="fas fa-heartbeat"></i>
+                    <span>Theo dõi sức khỏe</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="dashboard-main">
+            <!-- Overview Section -->
+            <section id="overview" class="dashboard-section active">
+                <div class="section-header">
+                    <h1>Tổng Quan</h1>
+                    <div class="welcome-message">
+                        <span>Chào mừng trở lại, <span class="user-display-name">Bệnh nhân</span>!</span>
+                    </div>
+                </div>
+
+                <!-- Quick Stats -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="upcomingAppointments">0</h3>
+                            <p>Lịch khám sắp tới</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-file-medical"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="totalRecords">0</h3>
+                            <p>Hồ sơ y tế</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-prescription-bottle-alt"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="activePrescriptions">0</h3>
+                            <p>Đơn thuốc đang dùng</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-user-md"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="followingDoctors">0</h3>
+                            <p>Bác sĩ đang theo dõi</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-clock"></i> Hoạt động gần đây</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="activity-list" id="recentActivity">
+                                <div class="activity-item">
+                                    <div class="activity-icon">
+                                        <i class="fas fa-calendar-plus"></i>
+                                    </div>
+                                    <div class="activity-content">
+                                        <p><strong>Đặt lịch khám</strong> với BS. Nguyễn Văn A</p>
+                                        <span class="activity-time">2 giờ trước</span>
+                                    </div>
+                                </div>
+                                <div class="activity-item">
+                                    <div class="activity-icon">
+                                        <i class="fas fa-file-medical"></i>
+                                    </div>
+                                    <div class="activity-content">
+                                        <p><strong>Cập nhật hồ sơ</strong> thông tin cá nhân</p>
+                                        <span class="activity-time">1 ngày trước</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-calendar-alt"></i> Lịch khám sắp tới</h3>
+                            <a href="#appointments" class="btn btn-sm btn-outline-primary" onclick="showSection('appointments')">Xem tất cả</a>
+                        </div>
+                        <div class="card-body">
+                            <div class="appointments-list" id="upcomingAppointmentsList">
+                                <!-- Appointments will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Health Summary -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-heartbeat"></i> Tóm tắt sức khỏe</h3>
+                        <a href="#health-tracking" class="btn btn-sm btn-outline-primary" onclick="showSection('health-tracking')">Chi tiết</a>
+                    </div>
+                    <div class="card-body">
+                        <div class="health-metrics">
+                            <div class="metric">
+                                <span class="metric-label">Huyết áp</span>
+                                <span class="metric-value">120/80 mmHg</span>
+                                <span class="metric-status normal">Bình thường</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-label">Nhịp tim</span>
+                                <span class="metric-value">72 bpm</span>
+                                <span class="metric-status normal">Bình thường</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-label">Cân nặng</span>
+                                <span class="metric-value">65 kg</span>
+                                <span class="metric-status normal">Ổn định</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Appointments Section -->
+            <section id="appointments" class="dashboard-section">
+                <div class="section-header">
+                    <h1>Lịch Khám</h1>
+                    <button class="btn btn-primary" onclick="showBookAppointmentModal()">
+                        <i class="fas fa-plus"></i> Đặt lịch khám
+                    </button>
+                </div>
+
+                <!-- Filter Options -->
+                <div class="filter-bar">
+                    <div class="filter-group">
+                        <label>Trạng thái:</label>
+                        <select id="appointmentStatusFilter">
+                            <option value="">Tất cả</option>
+                            <option value="pending">Chờ xác nhận</option>
+                            <option value="confirmed">Đã xác nhận</option>
+                            <option value="completed">Hoàn thành</option>
+                            <option value="cancelled">Đã hủy</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Thời gian:</label>
+                        <select id="appointmentTimeFilter">
+                            <option value="">Tất cả</option>
+                            <option value="upcoming">Sắp tới</option>
+                            <option value="past">Đã qua</option>
+                            <option value="today">Hôm nay</option>
+                            <option value="this-week">Tuần này</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Appointments List -->
+                <div class="appointments-container" id="appointmentsContainer">
+                    <!-- Appointments will be loaded here -->
+                </div>
+            </section>
+
+            <!-- Doctors Section -->
+            <section id="doctors" class="dashboard-section">
+                <div class="section-header">
+                    <h1>Tìm Bác Sĩ</h1>
+                </div>
+
+                <!-- Search and Filter -->
+                <div class="search-bar">
+                    <div class="search-input">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Tìm kiếm bác sĩ..." id="doctorSearch">
+                    </div>
+                    <div class="filter-group">
+                        <select id="specializationFilter">
+                            <option value="">Tất cả chuyên khoa</option>
+                            <option value="noi-khoa">Nội khoa</option>
+                            <option value="ngoai-khoa">Ngoại khoa</option>
+                            <option value="san-phu-khoa">Sản phụ khoa</option>
+                            <option value="nhi-khoa">Nhi khoa</option>
+                            <option value="tim-mach">Tim mạch</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Doctors Grid -->
+                <div class="doctors-grid" id="doctorsGrid">
+                    <!-- Doctors will be loaded here -->
+                </div>
+            </section>
+
+            <!-- Medical Records Section -->
+            <section id="medical-records" class="dashboard-section">
+                <div class="section-header">
+                    <h1>Hồ Sơ Y Tế</h1>
+                    <button class="btn btn-primary" onclick="showAddRecordModal()">
+                        <i class="fas fa-plus"></i> Thêm hồ sơ
+                    </button>
+                </div>
+
+                <!-- Records List -->
+                <div class="records-container" id="recordsContainer">
+                    <!-- Medical records will be loaded here -->
+                </div>
+            </section>
+
+            <!-- Prescriptions Section -->
+            <section id="prescriptions" class="dashboard-section">
+                <div class="section-header">
+                    <h1>Đơn Thuốc</h1>
+                </div>
+
+                <!-- Prescriptions List -->
+                <div class="prescriptions-container" id="prescriptionsContainer">
+                    <!-- Prescriptions will be loaded here -->
+                </div>
+            </section>
+
+            <!-- Health Tracking Section -->
+            <section id="health-tracking" class="dashboard-section">
+                <div class="section-header">
+                    <h1>Theo Dõi Sức Khỏe</h1>
+                    <button class="btn btn-primary" onclick="showAddHealthDataModal()">
+                        <i class="fas fa-plus"></i> Thêm dữ liệu
+                    </button>
+                </div>
+
+                <!-- Health Charts -->
+                <div class="health-charts" id="healthCharts">
+                    <!-- Health tracking charts will be loaded here -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modals will be added here -->
+    <div id="modal-container"></div>
+
+    <!-- Notification Container -->
+    <div id="notification-container"></div>
+
+    <!-- JavaScript Files -->
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/dashboard.js"></script>
+    <script src="../assets/js/patient-dashboard.js"></script>
+</body>
+</html>

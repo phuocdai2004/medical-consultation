@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Consultation - Hệ thống tư vấn y tế trực tuyến</title>
+    <meta name="description" content="Hệ thống tư vấn y tế trực tuyến với bác sĩ chuyên khoa, đặt lịch hẹn dễ dàng">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/home.css">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-heart-pulse"></i>
+                <span>Medical Consultation</span>
+            </div>
+            
+            <div class="nav-menu" id="nav-menu">
+                <a href="#home" class="nav-link active">Trang chủ</a>
+                <a href="#services" class="nav-link">Dịch vụ</a>
+                <a href="#doctors" class="nav-link">Bác sĩ</a>
+                <a href="#about" class="nav-link">Giới thiệu</a>
+                <a href="#contact" class="nav-link">Liên hệ</a>
+            </div>
+            
+            <div class="nav-auth">
+                <a href="pages/login.html" class="btn btn-outline">Đăng nhập</a>
+                <a href="pages/register.html" class="btn btn-primary">Đăng ký</a>
+            </div>
+            
+            <div class="nav-toggle" id="nav-toggle">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1 class="hero-title">
+                        Tư vấn y tế <span class="text-primary">trực tuyến</span><br>
+                        chuyên nghiệp và thuận tiện
+                    </h1>
+                    <p class="hero-description">
+                        Kết nối với các bác sĩ chuyên khoa hàng đầu mọi lúc, mọi nơi. 
+                        Đặt lịch hẹn dễ dàng, tư vấn trực tuyến an toàn và hiệu quả.
+                    </p>
+                    <div class="hero-buttons">
+                        <a href="pages/register.html" class="btn btn-primary btn-large">
+                            <i class="fas fa-user-plus"></i>
+                            Đăng ký ngay
+                        </a>
+                        <a href="#services" class="btn btn-outline btn-large">
+                            <i class="fas fa-play"></i>
+                            Tìm hiểu thêm
+                        </a>
+                    </div>
+                    
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <div class="stat-number">500+</div>
+                            <div class="stat-label">Bác sĩ chuyên khoa</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">10K+</div>
+                            <div class="stat-label">Bệnh nhân hài lòng</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">24/7</div>
+                            <div class="stat-label">Hỗ trợ trực tuyến</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="hero-image">
+                    <div class="hero-card">
+                        <div class="card-header">
+                            <div class="doctor-avatar">
+                                <i class="fas fa-user-md"></i>
+                            </div>
+                            <div class="doctor-info">
+                                <h4>BS. Nguyễn Văn A</h4>
+                                <p>Chuyên khoa Tim mạch</p>
+                            </div>
+                            <div class="status online">
+                                <i class="fas fa-circle"></i>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="appointment-time">
+                                <i class="fas fa-clock"></i>
+                                <span>14:30 - 15:00</span>
+                            </div>
+                            <div class="patient-info">
+                                <i class="fas fa-user"></i>
+                                <span>Tư vấn trực tuyến</span>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <button class="btn btn-success btn-small">
+                                <i class="fas fa-video"></i>
+                                Tham gia cuộc gọi
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Dịch vụ của chúng tôi</h2>
+                <p class="section-description">
+                    Chúng tôi cung cấp dịch vụ tư vấn y tế trực tuyến toàn diện với chất lượng cao
+                </p>
+            </div>
+            
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <h3 class="service-title">Tư vấn trực tuyến</h3>
+                    <p class="service-description">
+                        Tư vấn với bác sĩ chuyên khoa qua video call an toàn, tiện lợi
+                    </p>
+                    <div class="service-features">
+                        <div class="feature"><i class="fas fa-check"></i> Video HD chất lượng cao</div>
+                        <div class="feature"><i class="fas fa-check"></i> Bảo mật thông tin</div>
+                        <div class="feature"><i class="fas fa-check"></i> Hỗ trợ 24/7</div>
+                    </div>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <h3 class="service-title">Đặt lịch hẹn</h3>
+                    <p class="service-description">
+                        Dễ dàng đặt lịch hẹn với bác sĩ theo thời gian phù hợp
+                    </p>
+                    <div class="service-features">
+                        <div class="feature"><i class="fas fa-check"></i> Chọn thời gian linh hoạt</div>
+                        <div class="feature"><i class="fas fa-check"></i> Xác nhận tức thì</div>
+                        <div class="feature"><i class="fas fa-check"></i> Nhắc nhở tự động</div>
+                    </div>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-prescription-bottle-medical"></i>
+                    </div>
+                    <h3 class="service-title">Kê đơn điện tử</h3>
+                    <p class="service-description">
+                        Nhận đơn thuốc điện tử và theo dõi quá trình điều trị
+                    </p>
+                    <div class="service-features">
+                        <div class="feature"><i class="fas fa-check"></i> Đơn thuốc chính xác</div>
+                        <div class="feature"><i class="fas fa-check"></i> Lưu trữ an toàn</div>
+                        <div class="feature"><i class="fas fa-check"></i> Theo dõi điều trị</div>
+                    </div>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-file-medical"></i>
+                    </div>
+                    <h3 class="service-title">Hồ sơ sức khỏe</h3>
+                    <p class="service-description">
+                        Quản lý hồ sơ sức khỏe cá nhân một cách toàn diện
+                    </p>
+                    <div class="service-features">
+                        <div class="feature"><i class="fas fa-check"></i> Lưu trữ toàn diện</div>
+                        <div class="feature"><i class="fas fa-check"></i> Truy cập mọi lúc</div>
+                        <div class="feature"><i class="fas fa-check"></i> Bảo mật cao</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Doctors Section -->
+    <section id="doctors" class="doctors">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Đội ngũ bác sĩ</h2>
+                <p class="section-description">
+                    Các bác sĩ chuyên khoa hàng đầu với nhiều năm kinh nghiệm
+                </p>
+            </div>
+            
+            <div class="doctors-grid">
+                <div class="doctor-card">
+                    <div class="doctor-image">
+                        <i class="fas fa-user-md"></i>
+                        <div class="doctor-status online"></div>
+                    </div>
+                    <div class="doctor-info">
+                        <h3 class="doctor-name">BS. Nguyễn Văn A</h3>
+                        <p class="doctor-specialty">Chuyên khoa Tim mạch</p>
+                        <div class="doctor-experience">
+                            <i class="fas fa-award"></i>
+                            <span>15 năm kinh nghiệm</span>
+                        </div>
+                        <div class="doctor-rating">
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <span class="rating-text">4.9 (120 đánh giá)</span>
+                        </div>
+                        <div class="doctor-fee">
+                            <i class="fas fa-money-bill"></i>
+                            <span>500,000 VNĐ / buổi</span>
+                        </div>
+                        <button class="btn btn-primary btn-full">
+                            <i class="fas fa-calendar-plus"></i>
+                            Đặt lịch hẹn
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="doctor-card">
+                    <div class="doctor-image">
+                        <i class="fas fa-user-md"></i>
+                        <div class="doctor-status online"></div>
+                    </div>
+                    <div class="doctor-info">
+                        <h3 class="doctor-name">BS. Trần Thị B</h3>
+                        <p class="doctor-specialty">Chuyên khoa Da liễu</p>
+                        <div class="doctor-experience">
+                            <i class="fas fa-award"></i>
+                            <span>12 năm kinh nghiệm</span>
+                        </div>
+                        <div class="doctor-rating">
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <span class="rating-text">4.8 (95 đánh giá)</span>
+                        </div>
+                        <div class="doctor-fee">
+                            <i class="fas fa-money-bill"></i>
+                            <span>400,000 VNĐ / buổi</span>
+                        </div>
+                        <button class="btn btn-primary btn-full">
+                            <i class="fas fa-calendar-plus"></i>
+                            Đặt lịch hẹn
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="doctor-card">
+                    <div class="doctor-image">
+                        <i class="fas fa-user-md"></i>
+                        <div class="doctor-status busy"></div>
+                    </div>
+                    <div class="doctor-info">
+                        <h3 class="doctor-name">BS. Lê Văn C</h3>
+                        <p class="doctor-specialty">Chuyên khoa Nội</p>
+                        <div class="doctor-experience">
+                            <i class="fas fa-award"></i>
+                            <span>20 năm kinh nghiệm</span>
+                        </div>
+                        <div class="doctor-rating">
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <span class="rating-text">4.9 (200 đánh giá)</span>
+                        </div>
+                        <div class="doctor-fee">
+                            <i class="fas fa-money-bill"></i>
+                            <span>600,000 VNĐ / buổi</span>
+                        </div>
+                        <button class="btn btn-outline btn-full">
+                            <i class="fas fa-clock"></i>
+                            Đang bận
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center">
+                <a href="pages/doctors.html" class="btn btn-outline btn-large">
+                    <i class="fas fa-search"></i>
+                    Xem tất cả bác sĩ
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Tại sao chọn chúng tôi?</h2>
+                <p class="section-description">
+                    Những ưu điểm vượt trội của hệ thống tư vấn y tế trực tuyến
+                </p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Bảo mật cao</h3>
+                    <p>Thông tin bệnh nhân được mã hóa và bảo vệ tuyệt đối</p>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>Tiết kiệm thời gian</h3>
+                    <p>Không cần di chuyển, tư vấn ngay tại nhà một cách thuận tiện</p>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-money-bill-wave"></i>
+                    </div>
+                    <h3>Chi phí hợp lý</h3>
+                    <p>Mức phí tư vấn cạnh tranh, phù hợp với mọi đối tượng</p>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-user-check"></i>
+                    </div>
+                    <h3>Bác sĩ chuyên khoa</h3>
+                    <p>Đội ngũ bác sĩ được kiểm định, có chứng chỉ hành nghề</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-brand">
+                        <i class="fas fa-heart-pulse"></i>
+                        <span>Medical Consultation</span>
+                    </div>
+                    <p class="footer-description">
+                        Hệ thống tư vấn y tế trực tuyến hàng đầu Việt Nam, 
+                        kết nối bệnh nhân với các bác sĩ chuyên khoa uy tín.
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3 class="footer-title">Dịch vụ</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Tư vấn trực tuyến</a></li>
+                        <li><a href="#">Đặt lịch hẹn</a></li>
+                        <li><a href="#">Kê đơn điện tử</a></li>
+                        <li><a href="#">Hồ sơ sức khỏe</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3 class="footer-title">Hỗ trợ</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Câu hỏi thường gặp</a></li>
+                        <li><a href="#">Hướng dẫn sử dụng</a></li>
+                        <li><a href="#">Chính sách bảo mật</a></li>
+                        <li><a href="#">Điều khoản dịch vụ</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3 class="footer-title">Liên hệ</h3>
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <span>1900-xxxx</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>support@medical.com</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>123 Đường ABC, Quận 1, TP.HCM</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 Medical Consultation. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Files -->
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/home.js"></script>
+</body>
+</html>

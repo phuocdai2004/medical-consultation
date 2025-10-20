@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bảng Điều Khiển Admin - HealthCare</title>
+    <link rel="icon" type="image/x-icon" href="../assets/images/favicon.ico">
+    
+    <!-- CSS Files -->
+    <link href="../assets/css/main.css" rel="stylesheet">
+    <link href="../assets/css/dashboard.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar dashboard-nav">
+        <div class="container">
+            <div class="navbar-brand">
+                <a href="../index.html">
+                    <i class="fas fa-heartbeat"></i>
+                    HealthCare
+                </a>
+            </div>
+            <div class="navbar-nav">
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" id="userDropdown">
+                        <div class="user-avatar">
+                            <i class="fas fa-user-shield"></i>
+                        </div>
+                        <span class="user-name">Admin</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a href="#" class="dropdown-item" onclick="showSettings()">
+                            <i class="fas fa-cog"></i> Cài đặt hệ thống
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item" onclick="logout()">
+                            <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Dashboard -->
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="dashboard-sidebar">
+            <div class="sidebar-header">
+                <h3>
+                    <i class="fas fa-user-shield"></i>
+                    Admin
+                </h3>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#overview" class="nav-item active" data-section="overview">
+                    <i class="fas fa-chart-pie"></i>
+                    <span>Tổng quan</span>
+                </a>
+                <a href="#users" class="nav-item" data-section="users">
+                    <i class="fas fa-users-cog"></i>
+                    <span>Quản lý người dùng</span>
+                </a>
+                <a href="#appointments" class="nav-item" data-section="appointments">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Quản lý lịch hẹn</span>
+                </a>
+                <a href="#reports" class="nav-item" data-section="reports">
+                    <i class="fas fa-flag"></i>
+                    <span>Báo cáo & Khiếu nại</span>
+                </a>
+                <a href="#analytics" class="nav-item" data-section="analytics">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Phân tích</span>
+                </a>
+                <a href="#settings" class="nav-item" data-section="settings">
+                    <i class="fas fa-cogs"></i>
+                    <span>Cài đặt</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="dashboard-main">
+            <!-- Overview Section -->
+            <section id="overview" class="dashboard-section active">
+                <div class="section-header">
+                    <h1>Tổng Quan Hệ Thống</h1>
+                </div>
+
+                <!-- Quick Stats -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="totalUsers">0</h3>
+                            <p>Tổng người dùng</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-user-md"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="totalDoctors">0</h3>
+                            <p>Tổng bác sĩ</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-user-injured"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="totalPatients">0</h3>
+                            <p>Tổng bệnh nhân</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="totalAppointments">0</h3>
+                            <p>Tổng lịch hẹn</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts -->
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-user-plus"></i> Người dùng mới theo tháng</h3>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="newUsersChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-chart-bar"></i> Phân bổ người dùng</h3>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="userRolesChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- User Management Section -->
+            <section id="users" class="dashboard-section">
+                <div class="section-header">
+                    <h1>Quản lý Người Dùng</h1>
+                    <button class="btn btn-primary" onclick="showAddUserModal()">
+                        <i class="fas fa-user-plus"></i> Thêm người dùng
+                    </button>
+                </div>
+                <div class="users-container" id="adminUsersContainer">
+                    <!-- Users table will be loaded here -->
+                </div>
+            </section>
+
+            <!-- Appointment Management Section -->
+            <section id="appointments" class="dashboard-section">
+                <div class="section-header">
+                    <h1>Quản lý Lịch Hẹn</h1>
+                </div>
+                <div class="appointments-container" id="adminAppointmentsContainer">
+                    <!-- Appointments table will be loaded here -->
+                </div>
+            </section>
+
+            <!-- Reports Section -->
+            <section id="reports" class="dashboard-section">
+                <div class="section-header">
+                    <h1>Báo cáo & Khiếu nại</h1>
+                </div>
+                <div class="reports-container" id="adminReportsContainer">
+                    <!-- Reports will be loaded here -->
+                </div>
+            </section>
+
+            <!-- Analytics Section -->
+            <section id="analytics" class="dashboard-section">
+                <div class="section-header">
+                    <h1>Phân Tích Dữ Liệu</h1>
+                </div>
+                <div class="analytics-container" id="adminAnalyticsContainer">
+                    <!-- Analytics charts and data will be loaded here -->
+                </div>
+            </section>
+
+            <!-- Settings Section -->
+            <section id="settings" class="dashboard-section">
+                <div class="section-header">
+                    <h1>Cài Đặt Hệ Thống</h1>
+                </div>
+                <div class="settings-container" id="adminSettingsContainer">
+                    <!-- System settings form will be loaded here -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modals will be added here -->
+    <div id="modal-container"></div>
+
+    <!-- Notification Container -->
+    <div id="notification-container"></div>
+
+    <!-- JavaScript Files -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/dashboard.js"></script>
+    <script src="../assets/js/admin-dashboard.js"></script>
+</body>
+</html>

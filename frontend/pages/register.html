@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng ký - Medical Consultation</title>
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="../assets/css/auth.css">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="auth-body">
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="../index.html">
+                    <i class="fas fa-heart-pulse"></i>
+                    <span>Medical Consultation</span>
+                </a>
+            </div>
+            
+            <div class="nav-auth">
+                <a href="login.html" class="btn btn-outline">Đăng nhập</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Register Container -->
+    <div class="auth-container">
+        <div class="auth-card register-card">
+            <div class="auth-header">
+                <div class="auth-icon">
+                    <i class="fas fa-user-plus"></i>
+                </div>
+                <h1 class="auth-title">Đăng ký tài khoản</h1>
+                <p class="auth-subtitle">Tạo tài khoản để bắt đầu sử dụng dịch vụ tư vấn y tế trực tuyến.</p>
+            </div>
+            
+            <!-- Role Selection -->
+            <div class="role-selection" id="roleSelection">
+                <h3>Chọn loại tài khoản</h3>
+                <div class="role-options">
+                    <div class="role-option active" data-role="patient">
+                        <div class="role-icon">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <h4>Bệnh nhân</h4>
+                        <p>Tìm kiếm và đặt lịch hẹn với bác sĩ</p>
+                    </div>
+                    <div class="role-option" data-role="doctor">
+                        <div class="role-icon">
+                            <i class="fas fa-user-md"></i>
+                        </div>
+                        <h4>Bác sĩ</h4>
+                        <p>Cung cấp dịch vụ tư vấn y tế</p>
+                    </div>
+                </div>
+            </div>
+            
+            <form class="auth-form" id="registerForm">
+                <!-- Alert container -->
+                <div id="alertContainer"></div>
+                
+                <!-- Common Fields -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="fullName" class="form-label">
+                            <i class="fas fa-user"></i>
+                            Họ và tên
+                        </label>
+                        <input 
+                            type="text" 
+                            id="fullName" 
+                            name="fullName" 
+                            class="form-input" 
+                            placeholder="Nhập họ và tên"
+                            required
+                        >
+                        <div class="form-error" id="fullNameError"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email" class="form-label">
+                            <i class="fas fa-envelope"></i>
+                            Email
+                        </label>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email" 
+                            class="form-input" 
+                            placeholder="Nhập email"
+                            required
+                        >
+                        <div class="form-error" id="emailError"></div>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="phone" class="form-label">
+                            <i class="fas fa-phone"></i>
+                            Số điện thoại
+                        </label>
+                        <input 
+                            type="tel" 
+                            id="phone" 
+                            name="phone" 
+                            class="form-input" 
+                            placeholder="0123456789"
+                            required
+                        >
+                        <div class="form-error" id="phoneError"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password" class="form-label">
+                            <i class="fas fa-lock"></i>
+                            Mật khẩu
+                        </label>
+                        <div class="password-input-group">
+                            <input 
+                                type="password" 
+                                id="password" 
+                                name="password" 
+                                class="form-input" 
+                                placeholder="Tối thiểu 6 ký tự"
+                                required
+                            >
+                            <button type="button" class="password-toggle" id="togglePassword" title="Hiển thị/Ẩn mật khẩu">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <div class="form-error" id="passwordError"></div>
+                    </div>
+                </div>
+                
+                <!-- Patient Specific Fields -->
+                <div class="patient-fields form-section" id="patientFields">
+                    <h4 class="section-title">
+                        <i class="fas fa-info-circle"></i>
+                        Thông tin bệnh nhân
+                    </h4>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="dateOfBirth" class="form-label">
+                                <i class="fas fa-birthday-cake"></i>
+                                Ngày sinh
+                            </label>
+                            <input 
+                                type="date" 
+                                id="dateOfBirth" 
+                                name="dateOfBirth" 
+                                class="form-input"
+                            >
+                            <div class="form-error" id="dateOfBirthError"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="gender" class="form-label">
+                                <i class="fas fa-venus-mars"></i>
+                                Giới tính
+                            </label>
+                            <select id="gender" name="gender" class="form-select">
+                                <option value="">Chọn giới tính</option>
+                                <option value="male">Nam</option>
+                                <option value="female">Nữ</option>
+                                <option value="other">Khác</option>
+                            </select>
+                            <div class="form-error" id="genderError"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Doctor Specific Fields -->
+                <div class="doctor-fields form-section hidden" id="doctorFields">
+                    <h4 class="section-title">
+                        <i class="fas fa-stethoscope"></i>
+                        Thông tin bác sĩ
+                    </h4>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="specialization" class="form-label">
+                                <i class="fas fa-medal"></i>
+                                Chuyên khoa
+                            </label>
+                            <select id="specialization" name="specialization" class="form-select">
+                                <option value="">Chọn chuyên khoa</option>
+                                <option value="Nội khoa">Nội khoa</option>
+                                <option value="Ngoại khoa">Ngoại khoa</option>
+                                <option value="Tim mạch">Tim mạch</option>
+                                <option value="Da liễu">Da liễu</option>
+                                <option value="Thần kinh">Thần kinh</option>
+                                <option value="Sản phụ khoa">Sản phụ khoa</option>
+                                <option value="Nhi khoa">Nhi khoa</option>
+                                <option value="Mắt">Mắt</option>
+                                <option value="Tai mũi họng">Tai mũi họng</option>
+                                <option value="Răng hàm mặt">Răng hàm mặt</option>
+                            </select>
+                            <div class="form-error" id="specializationError"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="licenseNumber" class="form-label">
+                                <i class="fas fa-certificate"></i>
+                                Số chứng chỉ hành nghề
+                            </label>
+                            <input 
+                                type="text" 
+                                id="licenseNumber" 
+                                name="licenseNumber" 
+                                class="form-input" 
+                                placeholder="Nhập số chứng chỉ"
+                            >
+                            <div class="form-error" id="licenseNumberError"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="experience" class="form-label">
+                                <i class="fas fa-clock"></i>
+                                Kinh nghiệm (năm)
+                            </label>
+                            <input 
+                                type="number" 
+                                id="experience" 
+                                name="experience" 
+                                class="form-input" 
+                                placeholder="0"
+                                min="0"
+                                max="50"
+                            >
+                            <div class="form-error" id="experienceError"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="consultationFee" class="form-label">
+                                <i class="fas fa-money-bill"></i>
+                                Phí tư vấn (VNĐ)
+                            </label>
+                            <input 
+                                type="number" 
+                                id="consultationFee" 
+                                name="consultationFee" 
+                                class="form-input" 
+                                placeholder="500000"
+                                min="0"
+                            >
+                            <div class="form-error" id="consultationFeeError"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="bio" class="form-label">
+                            <i class="fas fa-user-circle"></i>
+                            Giới thiệu bản thân
+                        </label>
+                        <textarea 
+                            id="bio" 
+                            name="bio" 
+                            class="form-textarea" 
+                            rows="3"
+                            placeholder="Mô tả ngắn gọn về kinh nghiệm và chuyên môn của bạn"
+                        ></textarea>
+                        <div class="form-error" id="bioError"></div>
+                    </div>
+                    
+                    <div class="doctor-note">
+                        <i class="fas fa-info-circle"></i>
+                        <p>Tài khoản bác sĩ sẽ cần được admin xác minh trước khi có thể sử dụng đầy đủ chức năng.</p>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="agreeTerms" name="agreeTerms" required>
+                        <span class="checkmark"></span>
+                        Tôi đồng ý với <a href="#" target="_blank">Điều khoản dịch vụ</a> và <a href="#" target="_blank">Chính sách bảo mật</a>
+                    </label>
+                    <div class="form-error" id="agreeTermsError"></div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-full btn-large" id="registerBtn">
+                    <span class="btn-text">Đăng ký tài khoản</span>
+                    <div class="btn-loading hidden">
+                        <div class="spinner"></div>
+                        <span>Đang đăng ký...</span>
+                    </div>
+                </button>
+            </form>
+            
+            <div class="auth-footer">
+                <p>Đã có tài khoản? <a href="login.html">Đăng nhập ngay</a></p>
+            </div>
+        </div>
+        
+        <div class="auth-info">
+            <div class="info-content">
+                <div class="info-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h2>Tại sao chọn chúng tôi?</h2>
+                <p>Hệ thống tư vấn y tế trực tuyến hàng đầu với những ưu điểm vượt trội.</p>
+                
+                <ul class="info-features">
+                    <li>
+                        <i class="fas fa-check-circle"></i>
+                        <span>Bảo mật thông tin tuyệt đối</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-check-circle"></i>
+                        <span>Đội ngũ bác sĩ chuyên khoa</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-check-circle"></i>
+                        <span>Tư vấn 24/7 mọi lúc mọi nơi</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-check-circle"></i>
+                        <span>Chi phí hợp lý, minh bạch</span>
+                    </li>
+                </ul>
+                
+                <div class="security-badges">
+                    <div class="badge">
+                        <i class="fas fa-lock"></i>
+                        <span>SSL Encrypted</span>
+                    </div>
+                    <div class="badge">
+                        <i class="fas fa-shield-check"></i>
+                        <span>GDPR Compliant</span>
+                    </div>
+                    <div class="badge">
+                        <i class="fas fa-certificate"></i>
+                        <span>ISO Certified</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Files -->
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/register.js"></script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clearing Cache...</title>
+</head>
+<body>
+    <h1>Đang xóa cache và redirect...</h1>
+    <script>
+        // Xóa toàn bộ localStorage
+        localStorage.clear();
+        
+        // Xóa sessionStorage
+        sessionStorage.clear();
+        
+        // Redirect về trang login
+        setTimeout(() => {
+            window.location.href = '/pages/login.html';
+        }, 1000);
+    </script>
+</body>
+</html>

@@ -92,6 +92,17 @@ const register = async (req, res) => {
     });
   } catch (error) {
     console.error('Registration error:', error);
+    console.error('Error code:', error.code);
+    console.error('Error message:', error.message);
+    
+    // Handle MongoDB write permission errors
+    if (error.message.includes('write') || error.message.includes('permission')) {
+      return res.status(500).json({
+        success: false,
+        message: 'Database write error. Check MongoDB user permissions.',
+        error: error.message
+      });
+    }
     
     // Handle duplicate key errors
     if (error.code === 11000) {
@@ -114,7 +125,8 @@ const register = async (req, res) => {
 
     res.status(500).json({
       success: false,
-      message: 'Server error during registration'
+      message: 'Server error during registration',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined
     });
   }
 };

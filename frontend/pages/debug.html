@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Debug Token</title>
+</head>
+<body>
+    <h1>Debug Authentication</h1>
+    <div id="result"></div>
+    
+    <script>
+        const token = localStorage.getItem('token');
+        const user = localStorage.getItem('user');
+        
+        document.getElementById('result').innerHTML = `
+            <h2>Token Status:</h2>
+            <p><strong>Token:</strong> ${token ? 'EXISTS (length: ' + token.length + ')' : 'NOT FOUND'}</p>
+            <p><strong>User:</strong> ${user ? 'EXISTS' : 'NOT FOUND'}</p>
+            
+            <h3>Full Data:</h3>
+            <pre>Token: ${token}</pre>
+            <pre>User: ${user}</pre>
+            
+            <h3>Actions:</h3>
+            <button onclick="window.location.href='login.html'">Go to Login</button>
+            <button onclick="window.location.href='profile.html'">Go to Profile</button>
+            <button onclick="window.location.href='patient-dashboard.html'">Go to Dashboard</button>
+        `;
+    </script>
+</body>
+</html>

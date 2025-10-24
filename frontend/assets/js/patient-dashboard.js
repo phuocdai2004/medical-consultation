@@ -531,3 +531,325 @@ function formatCurrency(amount) {
         currency: 'VND'
     }).format(amount);
 }
+
+// Profile Management
+window.showProfile = async function() {
+    try {
+        // Load user profile
+        const token = localStorage.getItem('token');
+        const response = await fetch('http://localhost:8000/api/users/me/profile', {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        
+        const result = await response.json();
+        if (!result.success) throw new Error(result.message);
+        
+        const user = result.data;
+        
+        // Show profile modal
+        const modalHtml = `
+            <div class="modal active" id="profileModal">
+                <div class="modal-overlay" onclick="closeModal('profileModal')"></div>
+                <div class="modal-content modal-large">
+                    <div class="modal-header">
+                        <h2><i class="fas fa-user-edit"></i> Cập nhật hồ sơ</h2>
+                        <button class="modal-close" onclick="closeModal('profileModal')">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    
+                    <form class="modal-body" id="profileForm" onsubmit="updateProfile(event)">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">
+                                    <i class="fas fa-user"></i> Họ và tên
+                                </label>
+                                <input type="text" name="fullName" class="form-input" value="${user.fullName}" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">
+                                    <i class="fas fa-envelope"></i> Email
+                                </label>
+                                <input type="email" name="email" class="form-input" value="${user.email}" readonly>
+                                <small>Email không thể thay đổi</small>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">
+                                    <i class="fas fa-phone"></i> Số điện thoại
+                                </label>
+                                <input type="tel" name="phone" class="form-input" value="${user.phone}" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">
+                                    <i class="fas fa-calendar"></i> Ngày sinh
+                                </label>
+                                <input type="date" name="dateOfBirth" class="form-input" value="${user.dateOfBirth ? user.dateOfBirth.split('T')[0] : ''}">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">
+                                    <i class="fas fa-venus-mars"></i> Giới tính
+                                </label>
+                                <select name="gender" class="form-input">
+                                    <option value="male" ${user.gender === 'male' ? 'selected' : ''}>Nam</option>
+                                    <option value="female" ${user.gender === 'female' ? 'selected' : ''}>Nữ</option>
+                                    <option value="other" ${user.gender === 'other' ? 'selected' : ''}>Khác</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">
+                                    <i class="fas fa-phone-alt"></i> Liên hệ khẩn cấp
+                                </label>
+                                <input type="tel" name="emergencyContact" class="form-input" value="${user.emergencyContact || ''}" placeholder="Số điện thoại người thân">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-map-marker-alt"></i> Địa chỉ
+                            </label>
+                            <textarea name="address" class="form-input" rows="3" placeholder="Nhập địa chỉ đầy đủ">${user.address || ''}</textarea>
+                        </div>
+                        
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" onclick="closeModal('profileModal')">
+                                Hủy
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Lưu thay đổi
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        `;
+        
+        const container = document.getElementById('modal-container');
+        if (container) {
+            container.innerHTML = modalHtml;
+        }
+    } catch (error) {
+        console.error('Load profile error:', error);
+        alert('Không thể tải thông tin hồ sơ');
+    }
+}
+
+window.updateProfile = async function(event) {
+    event.preventDefault();
+    
+    const form = event.target;
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const originalText = submitBtn.innerHTML;
+    
+    try {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang lưu...';
+        
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData);
+        
+        const token = localStorage.getItem('token');
+        const response = await fetch('http://localhost:8000/api/users/me/profile', {
+            method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+        
+        const result = await response.json();
+        
+        if (!response.ok || !result.success) {
+            throw new Error(result.message || 'Cập nhật thất bại');
+        }
+        
+        // Update local storage
+        const user = JSON.parse(localStorage.getItem('user'));
+        localStorage.setItem('user', JSON.stringify({ ...user, ...result.data }));
+        
+        alert('Cập nhật hồ sơ thành công!');
+        closeModal('profileModal');
+        
+        // Refresh dashboard
+        location.reload();
+        
+    } catch (error) {
+        console.error('Update profile error:', error);
+        alert(error.message || 'Không thể cập nhật hồ sơ');
+    } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalText;
+    }
+}
+
+window.closeModal = function(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.remove();
+    }
+}
+
+// Settings & Auth functions
+window.showSettings = function() {
+    alert('Tính năng cài đặt đang được phát triển');
+}
+
+window.logout = function() {
+    if (confirm('Bạn có chắc muốn đăng xuất?')) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        window.location.href = '../index.html';
+    }
+}
+// Medical Records Management
+function loadMedicalRecords() {
+    const container = document.getElementById('recordsContainer');
+    if (!container) return;
+    
+    // D? li?u m?u - sau n�y s? l?y t? API
+    const medicalRecords = [
+        {
+            id: 1,
+            date: '2024-10-15',
+            type: 'Kh�m t?ng qu�t',
+            doctor: 'BS. Nguy?n Van A',
+            diagnosis: 'S?c kh?e t?t, ti?p t?c duy tr�',
+            files: ['ket-qua-xet-nghiem.pdf', 'phim-chup-xquang.jpg']
+        },
+        {
+            id: 2,
+            date: '2024-09-20',
+            type: 'Kh�m chuy�n khoa tim m?ch',
+            doctor: 'BS. Tr?n Th? B',
+            diagnosis: 'Huy?t �p b�nh thu?ng, ECG kh�ng c� b?t thu?ng',
+            files: ['ecg-result.pdf']
+        },
+        {
+            id: 3,
+            date: '2024-08-10',
+            type: 'X�t nghi?m m�u',
+            doctor: 'BS. L� Van C',
+            diagnosis: 'Ch? s? trong gi?i h?n b�nh thu?ng',
+            files: ['blood-test.pdf']
+        }
+    ];
+    
+    if (medicalRecords.length === 0) {
+        container.innerHTML = `
+            <div class="empty-state">
+                <i class="fas fa-file-medical"></i>
+                <h3>Chua c� h? so y t? n�o</h3>
+                <p>H? so y t? c?a b?n s? du?c luu tr? t?i d�y sau m?i l?n kh�m.</p>
+                <button class="btn btn-primary" onclick="showAddRecordModal()">
+                    <i class="fas fa-plus"></i> Th�m h? so
+                </button>
+            </div>
+        `;
+        return;
+    }
+    
+    const recordsHtml = medicalRecords.map(record => `
+        <div class="medical-record-card">
+            <div class="record-header">
+                <div class="record-type">
+                    <i class="fas fa-file-medical-alt"></i>
+                    <span>${record.type}</span>
+                </div>
+                <div class="record-date">
+                    <i class="fas fa-calendar"></i>
+                    ${new Date(record.date).toLocaleDateString('vi-VN')}
+                </div>
+            </div>
+            <div class="record-body">
+                <div class="record-info">
+                    <div class="info-item">
+                        <i class="fas fa-user-md"></i>
+                        <span>${record.doctor}</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-diagnoses"></i>
+                        <span>${record.diagnosis}</span>
+                    </div>
+                </div>
+                ${record.files && record.files.length > 0 ? `
+                    <div class="record-files">
+                        <strong><i class="fas fa-paperclip"></i> T?p d�nh k�m:</strong>
+                        <div class="file-list">
+                            ${record.files.map(file => `
+                                <a href="#" class="file-item" onclick="viewFile('${file}'); return false;">
+                                    <i class="fas fa-file-${getFileIcon(file)}"></i>
+                                    <span>${file}</span>
+                                </a>
+                            `).join('')}
+                        </div>
+                    </div>
+                ` : ''}
+            </div>
+            <div class="record-actions">
+                <button class="btn btn-sm btn-outline-primary" onclick="viewRecord(${record.id})">
+                    <i class="fas fa-eye"></i> Xem chi ti?t
+                </button>
+                <button class="btn btn-sm btn-outline-secondary" onclick="downloadRecord(${record.id})">
+                    <i class="fas fa-download"></i> T?i xu?ng
+                </button>
+            </div>
+        </div>
+    `).join('');
+    
+    container.innerHTML = recordsHtml;
+}
+
+function getFileIcon(filename) {
+    const ext = filename.split('.').pop().toLowerCase();
+    const icons = {
+        'pdf': 'pdf',
+        'doc': 'word',
+        'docx': 'word',
+        'jpg': 'image',
+        'jpeg': 'image',
+        'png': 'image',
+        'xls': 'excel',
+        'xlsx': 'excel'
+    };
+    return icons[ext] || 'file';
+}
+
+window.viewFile = function(filename) {
+    alert(`Xem file: ${filename}\n(T�nh nang dang ph�t tri?n)`);
+}
+
+window.viewRecord = function(recordId) {
+    alert(`Xem chi ti?t h? so #${recordId}\n(T�nh nang dang ph�t tri?n)`);
+}
+
+window.downloadRecord = function(recordId) {
+    alert(`T?i xu?ng h? so #${recordId}\n(T�nh nang dang ph�t tri?n)`);
+}
+
+window.showAddRecordModal = function() {
+    alert('T�nh nang th�m h? so dang du?c ph�t tri?n');
+}
+
+// Auto load medical records
+document.addEventListener('DOMContentLoaded', () => {
+    const medicalRecordsLink = document.querySelector('[data-section="medical-records"]');
+    if (medicalRecordsLink) {
+        medicalRecordsLink.addEventListener('click', () => {
+            loadMedicalRecords();
+        });
+    }
+    if (window.location.hash === '#medical-records') {
+        loadMedicalRecords();
+    }
+});

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hồ Sơ Y Tế - HealthCare</title>
+    <link rel="icon" type="image/x-icon" href="../assets/images/favicon.ico">
+    
+    <!-- CSS Files -->
+    <link href="../assets/css/main.css" rel="stylesheet">
+    <link href="../assets/css/dashboard.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar dashboard-nav">
+        <div class="container">
+            <div class="navbar-brand">
+                <a href="../index.html">
+                    <i class="fas fa-heartbeat"></i>
+                    HealthCare
+                </a>
+            </div>
+            <div class="navbar-nav">
+                <a href="#" onclick="history.back()" class="btn btn-outline-primary">
+                    <i class="fas fa-arrow-left"></i> Quay lại Dashboard
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container" style="padding: 2rem 0; max-width: 1000px;">
+        <div class="section-header" style="margin-bottom: 2rem;">
+            <div>
+                <h1><i class="fas fa-file-medical"></i> Hồ Sơ Y Tế</h1>
+                <p style="color: var(--gray-600);">Lịch sử khám bệnh và xét nghiệm của bạn</p>
+            </div>
+            <button class="btn btn-primary" onclick="showAddRecordModal()">
+                <i class="fas fa-plus"></i> Thêm hồ sơ
+            </button>
+        </div>
+
+        <!-- Filter and Search -->
+        <div class="dashboard-card" style="margin-bottom: 2rem;">
+            <div class="card-body">
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <div class="form-group" style="flex: 1; min-width: 200px;">
+                        <input type="text" id="searchInput" class="form-input" placeholder="Tìm kiếm hồ sơ...">
+                    </div>
+                    <div class="form-group" style="min-width: 150px;">
+                        <select id="typeFilter" class="form-input">
+                            <option value="">Tất cả loại</option>
+                            <option value="general">Khám tổng quát</option>
+                            <option value="cardiology">Tim mạch</option>
+                            <option value="test">Xét nghiệm</option>
+                            <option value="imaging">Chụp chiếu</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="min-width: 150px;">
+                        <select id="yearFilter" class="form-input">
+                            <option value="">Tất cả năm</option>
+                            <option value="2024">2024</option>
+                            <option value="2023">2023</option>
+                            <option value="2022">2022</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Medical Records List -->
+        <div id="recordsContainer">
+            <!-- Records will be loaded here by JavaScript -->
+        </div>
+    </div>
+
+    <!-- JavaScript Files -->
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/medical-records.js"></script>
+</body>
+</html>

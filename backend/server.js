@@ -19,7 +19,19 @@ app.use(helmet());
 
 // CORS configuration
 app.use(cors({
-  origin: process.env.CLIENT_URL || 'http://localhost:3000',
+  origin: function (origin, callback) {
+    // Allow requests from both localhost and 127.0.0.1
+    const allowedOrigins = [
+      'http://localhost:8081',
+      process.env.CLIENT_URL || 'http://localhost:8081'
+    ];
+    
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true
 }));
 

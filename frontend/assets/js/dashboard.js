@@ -70,13 +70,15 @@ function initNavigation() {
     
     navItems.forEach(item => {
         item.addEventListener('click', (e) => {
-            e.preventDefault();
-            
             const section = item.dataset.section;
+            
+            // If item has data-section, prevent default and show section
             if (section) {
+                e.preventDefault();
                 showSection(section);
                 setActiveNavItem(item);
             }
+            // Otherwise, let the link navigate normally (for profile.html, etc)
         });
     });
     
@@ -150,18 +152,19 @@ function loadSectionData(sectionId) {
 
 function initUserDropdown() {
     const dropdownToggle = document.getElementById('userDropdown');
-    const dropdown = dropdownToggle?.closest('.dropdown');
+    if (!dropdownToggle) return;
     
-    if (!dropdown) return;
+    const dropdown = dropdownToggle.closest('.dropdown');
     
+    // Click avatar to toggle
     dropdownToggle.addEventListener('click', (e) => {
         e.preventDefault();
         dropdown.classList.toggle('show');
     });
     
-    // Close dropdown when clicking outside
+    // Click outside to close
     document.addEventListener('click', (e) => {
-        if (!dropdown.contains(e.target)) {
+        if (!dropdown.contains(e.target) && !e.target.closest('.dropdown-toggle')) {
             dropdown.classList.remove('show');
         }
     });

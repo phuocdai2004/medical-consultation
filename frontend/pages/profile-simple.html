@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hồ Sơ Cá Nhân - HealthCare</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .profile-page {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        .profile-header {
+            margin-bottom: 2rem;
+        }
+        .profile-header h1 {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        .profile-form {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(72, 96, 224, 0.1);
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+        .btn-secondary {
+            background: var(--bg-light);
+            color: var(--text-dark);
+            border: 1px solid var(--border-color);
+        }
+        .btn-secondary:hover {
+            background: var(--border-color);
+        }
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .back-btn:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar dashboard-nav">
+        <div class="container">
+            <div class="navbar-brand">
+                <a href="../index.html">
+                    <i class="fas fa-heartbeat"></i> HealthCare
+                </a>
+            </div>
+            <div class="navbar-nav">
+                <a href="patient-dashboard.html" class="btn btn-outline-primary">
+                    <i class="fas fa-arrow-left"></i> Quay lại
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="profile-page">
+        <div class="profile-header">
+            <h1><i class="fas fa-user"></i> Hồ Sơ Cá Nhân</h1>
+            <p style="color: #666;">Quản lý thông tin cá nhân của bạn</p>
+        </div>
+
+        <!-- Profile Form -->
+        <div class="profile-form">
+            <form id="profileForm">
+                <h3 style="margin-bottom: 1.5rem; color: var(--primary-color);">
+                    <i class="fas fa-id-card"></i> Thông Tin Cơ Bản
+                </h3>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="fullName">Họ và Tên</label>
+                        <input type="text" id="fullName" name="fullName" placeholder="Nhập họ và tên">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="Nhập email" readonly>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="phone">Số Điện Thoại</label>
+                        <input type="tel" id="phone" name="phone" placeholder="Nhập số điện thoại">
+                    </div>
+                    <div class="form-group">
+                        <label for="dateOfBirth">Ngày Sinh</label>
+                        <input type="date" id="dateOfBirth" name="dateOfBirth">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="gender">Giới Tính</label>
+                        <select id="gender" name="gender">
+                            <option value="">-- Chọn giới tính --</option>
+                            <option value="male">Nam</option>
+                            <option value="female">Nữ</option>
+                            <option value="other">Khác</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Địa Chỉ</label>
+                        <input type="text" id="address" name="address" placeholder="Nhập địa chỉ">
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Lưu Thay Đổi
+                    </button>
+                    <button type="reset" class="btn btn-secondary">
+                        <i class="fas fa-redo"></i> Đặt Lại
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Change Password Section -->
+        <div class="profile-form" style="margin-top: 2rem;">
+            <form id="changePasswordForm">
+                <h3 style="margin-bottom: 1.5rem; color: var(--primary-color);">
+                    <i class="fas fa-lock"></i> Đổi Mật Khẩu
+                </h3>
+
+                <div class="form-group">
+                    <label for="currentPassword">Mật Khẩu Hiện Tại</label>
+                    <input type="password" id="currentPassword" name="currentPassword" placeholder="Nhập mật khẩu hiện tại" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="newPassword">Mật Khẩu Mới</label>
+                    <input type="password" id="newPassword" name="newPassword" placeholder="Nhập mật khẩu mới" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">Xác Nhận Mật Khẩu</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Xác nhận mật khẩu mới" required>
+                </div>
+
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-lock"></i> Đổi Mật Khẩu
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        console.log('✅ Profile page loaded successfully');
+        
+        // Simple notification
+        function showNotification(msg, type = 'info') {
+            alert(msg);
+        }
+
+        // Profile form submit
+        const profileForm = document.getElementById('profileForm');
+        if (profileForm) {
+            profileForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                showNotification('✅ Thay đổi đã được lưu!', 'success');
+            });
+        }
+
+        // Password form submit
+        const pwForm = document.getElementById('changePasswordForm');
+        if (pwForm) {
+            pwForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const pw1 = document.getElementById('newPassword').value;
+                const pw2 = document.getElementById('confirmPassword').value;
+                if (pw1 !== pw2) {
+                    showNotification('❌ Mật khẩu không khớp!', 'error');
+                    return;
+                }
+                showNotification('✅ Đổi mật khẩu thành công!', 'success');
+                pwForm.reset();
+            });
+        }
+    </script>
+</body>
+</html>

@@ -47,14 +47,14 @@
             <div class="role-selection" id="roleSelection">
                 <h3>Chọn loại tài khoản</h3>
                 <div class="role-options">
-                    <div class="role-option active" data-role="patient">
+                    <div class="role-card active" data-role="patient">
                         <div class="role-icon">
                             <i class="fas fa-user"></i>
                         </div>
                         <h4>Bệnh nhân</h4>
                         <p>Tìm kiếm và đặt lịch hẹn với bác sĩ</p>
                     </div>
-                    <div class="role-option" data-role="doctor">
+                    <div class="role-card" data-role="doctor">
                         <div class="role-icon">
                             <i class="fas fa-user-md"></i>
                         </div>
@@ -64,7 +64,9 @@
                 </div>
             </div>
             
-            <form class="auth-form" id="registerForm">
+            <form class="auth-form register-form" id="registerForm">
+                <!-- Hidden role input (used by JS) -->
+                <input type="hidden" id="role" name="role" value="patient">
                 <!-- Alert container -->
                 <div id="alertContainer"></div>
                 

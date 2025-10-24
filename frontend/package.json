@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "description": "Frontend for Medical Consultation System",
   "scripts": {
-    "start": "npx http-server -p 3000 -o",
-    "dev": "npx http-server -p 3000 -o -c-1",
-    "serve": "npx live-server --port=3000 --open=index.html"
+    "start": "npx http-server -p 8081 -o",
+    "dev": "npx http-server -p 8081 -o -c-1",
+    "serve": "npx live-server --port=8081 --open=index.html"
   },
   "keywords": [
     "medical",

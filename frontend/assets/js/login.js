@@ -182,16 +182,16 @@ function redirectAfterLogin(user) {
     // Default redirect based on user role
     switch (user.role) {
         case 'admin':
-            window.location.href = '/pages/admin/dashboard.html';
+            window.location.href = 'admin-dashboard.html';
             break;
         case 'doctor':
-            window.location.href = '/pages/doctor/dashboard.html';
+            window.location.href = 'doctor-dashboard.html';
             break;
         case 'patient':
-            window.location.href = '/pages/patient/dashboard.html';
+            window.location.href = 'patient-dashboard.html';
             break;
         default:
-            window.location.href = '/pages/dashboard.html';
+            window.location.href = '../index.html';
     }
 }
 

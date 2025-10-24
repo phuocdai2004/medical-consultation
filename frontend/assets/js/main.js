@@ -1,7 +1,7 @@
 // Main JavaScript file for common functionality
 
 // Global variables
-window.API_BASE_URL = 'http://localhost:5000/api';
+window.API_BASE_URL = 'http://localhost:8000/api';
 window.currentUser = null;
 window.authToken = localStorage.getItem('authToken');
 
@@ -378,11 +378,11 @@ const navigation = {
                         <i class="fas fa-chevron-down"></i>
                     </button>
                     <div class="user-dropdown hidden" id="userDropdown">
-                        <a href="/pages/dashboard.html" class="dropdown-item">
+                        <a href="/pages/${currentUser.role}-dashboard.html" class="dropdown-item">
                             <i class="fas fa-tachometer-alt"></i>
                             Dashboard
                         </a>
-                        <a href="/pages/profile.html" class="dropdown-item">
+                        <a href="#" class="dropdown-item" onclick="showProfile()">
                             <i class="fas fa-user-cog"></i>
                             Hồ sơ
                         </a>

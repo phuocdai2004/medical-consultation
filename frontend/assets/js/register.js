@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initRegistrationForm();
     initRoleSelection();
     initSpecializationData();
-    authUtils.initPasswordStrength();
+    // Password strength init moved to auth.js
 });
 
 function initRegistrationForm() {
@@ -131,9 +131,9 @@ async function handleRegistration(e) {
     const form = e.target;
     const submitBtn = form.querySelector('.btn-primary');
     
-    // Validate form
-    if (!authUtils.validateForm(form)) {
-        utils.showNotification('Vui lòng kiểm tra lại thông tin', 'error');
+    // Basic form validation
+    if (!form.checkValidity()) {
+        form.reportValidity();
         return;
     }
     
@@ -143,44 +143,54 @@ async function handleRegistration(e) {
     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang đăng ký...';
     
     try {
-        const formData = authUtils.getFormData(form);
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData);
         
         // Prepare data for API
         const userData = {
-            email: formData.email,
-            password: formData.password,
-            role: formData.role,
-            fullName: formData.fullName,
-            phone: formData.phone
+            email: data.email,
+            password: data.password,
+            role: data.role,
+            fullName: data.fullName,
+            phone: data.phone
         };
         
         // Add role-specific data
-        if (formData.role === 'patient') {
-            userData.dateOfBirth = formData.dateOfBirth;
-            userData.gender = formData.gender;
-            userData.address = formData.address;
-            userData.emergencyContact = formData.emergencyContact;
-        } else if (formData.role === 'doctor') {
-            userData.specialization = formData.specialization;
-            userData.licenseNumber = formData.licenseNumber;
-            userData.experience = parseInt(formData.experience) || 0;
-            userData.consultationFee = parseFloat(formData.consultationFee) || 0;
-            userData.bio = formData.bio;
-            userData.qualifications = formData.qualifications ? formData.qualifications.split('\n').filter(q => q.trim()) : [];
+        if (data.role === 'patient') {
+            userData.dateOfBirth = data.dateOfBirth;
+            userData.gender = data.gender;
+            userData.address = data.address || '';
+            userData.emergencyContact = data.emergencyContact || '';
+        } else if (data.role === 'doctor') {
+            userData.specialization = data.specialization;
+            userData.licenseNumber = data.licenseNumber;
+            userData.experience = parseInt(data.experience) || 0;
+            userData.consultationFee = parseFloat(data.consultationFee) || 0;
+            userData.bio = data.bio || '';
+            userData.qualifications = data.qualifications ? data.qualifications.split('\n').filter(q => q.trim()) : [];
         }
         
         // Call registration API
-        const response = await apiService.register(userData);
+        const API_URL = 'http://localhost:8000/api';
+        const response = await fetch(`${API_URL}/auth/register`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(userData)
+        });
         
-        if (response.success) {
-            utils.showNotification('Đăng ký thành công! Vui lòng kiểm tra email để xác thực tài khoản.', 'success');
+        const result = await response.json();
+        
+        if (response.ok && result.success) {
+            showNotification('Đăng ký thành công! Vui lòng kiểm tra email để xác thực tài khoản.', 'success');
             
             // Redirect to login page after delay
             setTimeout(() => {
                 window.location.href = 'login.html';
             }, 2000);
         } else {
-            throw new Error(response.message || 'Đăng ký thất bại');
+            throw new Error(result.message || 'Đăng ký thất bại');
         }
         
     } catch (error) {
@@ -196,12 +206,36 @@ async function handleRegistration(e) {
             errorMessage = 'Số chứng chỉ hành nghề đã tồn tại.';
         }
         
-        utils.showNotification(errorMessage, 'error');
+        showNotification(errorMessage, 'error');
     } finally {
-        // Reset button
+        // Restore button state
         submitBtn.disabled = false;
         submitBtn.textContent = originalText;
     }
+}
+
+// Simple notification function
+function showNotification(message, type = 'info') {
+    const alertContainer = document.getElementById('alertContainer');
+    if (!alertContainer) {
+        alert(message);
+        return;
+    }
+    
+    const alert = document.createElement('div');
+    alert.className = `alert alert-${type}`;
+    alert.innerHTML = `
+        <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+        <span>${message}</span>
+    `;
+    
+    alertContainer.innerHTML = '';
+    alertContainer.appendChild(alert);
+    
+    // Auto remove after 5 seconds
+    setTimeout(() => {
+        alert.remove();
+    }, 5000);
 }
 
 // Demo data for testing
@@ -224,7 +258,7 @@ function fillDemoData() {
             address: '123 Đường Demo, Quận 1, TP.HCM',
             emergencyContact: '0123456789'
         };
-        authUtils.setFormData(form, patientData);
+        setFormData(form, patientData);
     } else if (role === 'doctor') {
         const doctorData = {
             ...commonData,
@@ -235,10 +269,20 @@ function fillDemoData() {
             bio: 'Bác sĩ có nhiều năm kinh nghiệm trong lĩnh vực nội khoa.',
             qualifications: 'Bằng Tiến sĩ Y khoa\nChứng chỉ chuyên khoa cấp I'
         };
-        authUtils.setFormData(form, doctorData);
+        setFormData(form, doctorData);
     }
     
-    utils.showNotification('Đã điền dữ liệu demo', 'info');
+    showNotification('Đã điền dữ liệu demo', 'info');
+}
+
+// Set form data helper
+function setFormData(form, data) {
+    Object.entries(data).forEach(([key, value]) => {
+        const input = form.querySelector(`[name="${key}"]`);
+        if (input) {
+            input.value = value;
+        }
+    });
 }
 
 // Add demo button for development
@@ -268,19 +312,33 @@ function initEmailCheck() {
         
         emailCheckTimeout = setTimeout(async () => {
             const email = emailInput.value.trim();
-            if (email && utils.validateEmail(email)) {
+            if (email && isValidEmail(email)) {
                 await checkEmailAvailability(email);
             }
         }, 1000);
     });
 }
 
+// Simple email validation
+function isValidEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
 async function checkEmailAvailability(email) {
     try {
-        const response = await apiService.checkEmailAvailability(email);
+        const API_URL = 'http://localhost:8000/api';
+        const response = await fetch(`${API_URL}/auth/check-email`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email })
+        });
+        
+        const result = await response.json();
         const errorElement = document.getElementById('emailError');
         
-        if (!response.available) {
+        if (!result.available) {
             emailInput.classList.add('error');
             if (errorElement) {
                 errorElement.textContent = 'Email đã được sử dụng';

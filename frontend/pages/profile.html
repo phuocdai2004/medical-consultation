@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hồ Sơ Cá Nhân - HealthCare</title>
+    <link rel="icon" type="image/x-icon" href="../assets/images/favicon.ico">
+    
+    <!-- CSS Files -->
+    <link href="../assets/css/main.css" rel="stylesheet">
+    <link href="../assets/css/dashboard.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar dashboard-nav">
+        <div class="container">
+            <div class="navbar-brand">
+                <a href="../index.html">
+                    <i class="fas fa-heartbeat"></i>
+                    HealthCare
+                </a>
+            </div>
+            <div class="navbar-nav">
+                <a href="#" onclick="history.back()" class="btn btn-outline-primary">
+                    <i class="fas fa-arrow-left"></i> Quay lại
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container" style="padding: 2rem 0; max-width: 800px;">
+        <div class="profile-container">
+            <div class="section-header" style="margin-bottom: 2rem;">
+                <h1><i class="fas fa-user"></i> Hồ Sơ Cá Nhân</h1>
+                <p style="color: var(--gray-600);">Quản lý thông tin cá nhân của bạn</p>
+            </div>
+
+            <!-- Profile Card -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-id-card"></i> Thông Tin Cơ Bản</h3>
+                </div>
+                <div class="card-body">
+                    <form id="profileForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="fullName">
+                                    <i class="fas fa-user"></i> Họ và tên
+                                </label>
+                                <input type="text" id="fullName" name="fullName" class="form-input" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="email">
+                                    <i class="fas fa-envelope"></i> Email
+                                </label>
+                                <input type="email" id="email" name="email" class="form-input" readonly>
+                                <small style="color: var(--gray-500);">Email không thể thay đổi</small>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="phone">
+                                    <i class="fas fa-phone"></i> Số điện thoại
+                                </label>
+                                <input type="tel" id="phone" name="phone" class="form-input">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="dateOfBirth">
+                                    <i class="fas fa-calendar"></i> Ngày sinh
+                                </label>
+                                <input type="date" id="dateOfBirth" name="dateOfBirth" class="form-input">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="gender">
+                                    <i class="fas fa-venus-mars"></i> Giới tính
+                                </label>
+                                <select id="gender" name="gender" class="form-input">
+                                    <option value="">Chọn giới tính</option>
+                                    <option value="male">Nam</option>
+                                    <option value="female">Nữ</option>
+                                    <option value="other">Khác</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="address">
+                                    <i class="fas fa-map-marker-alt"></i> Địa chỉ
+                                </label>
+                                <textarea id="address" name="address" class="form-input" rows="3"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-actions" style="display: flex; gap: 1rem; margin-top: 2rem;">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Lưu thay đổi
+                            </button>
+                            <button type="button" class="btn btn-outline-secondary" onclick="history.back()">
+                                <i class="fas fa-times"></i> Hủy
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Change Password Card -->
+            <div class="dashboard-card" style="margin-top: 2rem;">
+                <div class="card-header">
+                    <h3><i class="fas fa-lock"></i> Đổi Mật Khẩu</h3>
+                </div>
+                <div class="card-body">
+                    <form id="changePasswordForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="currentPassword">
+                                    <i class="fas fa-key"></i> Mật khẩu hiện tại
+                                </label>
+                                <input type="password" id="currentPassword" name="currentPassword" class="form-input" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="newPassword">
+                                    <i class="fas fa-lock"></i> Mật khẩu mới
+                                </label>
+                                <input type="password" id="newPassword" name="newPassword" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="confirmPassword">
+                                    <i class="fas fa-lock"></i> Xác nhận mật khẩu
+                                </label>
+                                <input type="password" id="confirmPassword" name="confirmPassword" class="form-input" required>
+                            </div>
+                        </div>
+
+                        <div class="form-actions" style="display: flex; gap: 1rem; margin-top: 2rem;">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-check"></i> Đổi mật khẩu
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Account Info Card -->
+            <div class="dashboard-card" style="margin-top: 2rem;">
+                <div class="card-header">
+                    <h3><i class="fas fa-info-circle"></i> Thông Tin Tài Khoản</h3>
+                </div>
+                <div class="card-body">
+                    <div class="info-grid" style="display: grid; gap: 1rem;">
+                        <div class="info-item">
+                            <strong><i class="fas fa-user-tag"></i> Vai trò:</strong>
+                            <span id="userRole">Bệnh nhân</span>
+                        </div>
+                        <div class="info-item">
+                            <strong><i class="fas fa-calendar-plus"></i> Ngày tạo:</strong>
+                            <span id="createdAt">-</span>
+                        </div>
+                        <div class="info-item">
+                            <strong><i class="fas fa-check-circle"></i> Trạng thái:</strong>
+                            <span id="accountStatus" class="badge badge-success">Đã kích hoạt</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Files -->
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/profile.js"></script>
+</body>
+</html>

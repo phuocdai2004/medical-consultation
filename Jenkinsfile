@@ -3,7 +3,6 @@ pipeline {
 
     environment {
         REGISTRY = "docker.io"
-        DOCKER_USERNAME = credentials('dockerhub-username')
         IMAGE_BACKEND = "medical-consultation-backend"
         IMAGE_FRONTEND = "medical-consultation-frontend"
         GITHUB_REPO = "https://github.com/phuocdai2004/medical-consultation.git"
@@ -72,10 +71,16 @@ pipeline {
                     steps {
                         echo '🐳 Building backend Docker image...'
                         dir('backend') {
-                            bat """
-                                docker build -t ${REGISTRY}/${DOCKER_USERNAME}/${IMAGE_BACKEND}:latest .
-                                docker tag ${REGISTRY}/${DOCKER_USERNAME}/${IMAGE_BACKEND}:latest ${REGISTRY}/${DOCKER_USERNAME}/${IMAGE_BACKEND}:${BUILD_NUMBER}
-                            """
+                            withCredentials([usernamePassword(
+                                credentialsId: 'dockerhub-cred',
+                                usernameVariable: 'DOCKER_USER',
+                                passwordVariable: 'DOCKER_PASS'
+                            )]) {
+                                bat """
+                                    docker build -t ${REGISTRY}/%DOCKER_USER%/${IMAGE_BACKEND}:latest .
+                                    docker tag ${REGISTRY}/%DOCKER_USER%/${IMAGE_BACKEND}:latest ${REGISTRY}/%DOCKER_USER%/${IMAGE_BACKEND}:${BUILD_NUMBER}
+                                """
+                            }
                         }
                         echo '✅ Backend image built successfully!'
                     }
@@ -85,10 +90,16 @@ pipeline {
                     steps {
                         echo '🐳 Building frontend Docker image...'
                         dir('frontend') {
-                            bat """
-                                docker build -t ${REGISTRY}/${DOCKER_USERNAME}/${IMAGE_FRONTEND}:latest .
-                                docker tag ${REGISTRY}/${DOCKER_USERNAME}/${IMAGE_FRONTEND}:latest ${REGISTRY}/${DOCKER_USERNAME}/${IMAGE_FRONTEND}:${BUILD_NUMBER}
-                            """
+                            withCredentials([usernamePassword(
+                                credentialsId: 'dockerhub-cred',
+                                usernameVariable: 'DOCKER_USER',
+                                passwordVariable: 'DOCKER_PASS'
+                            )]) {
+                                bat """
+                                    docker build -t ${REGISTRY}/%DOCKER_USER%/${IMAGE_FRONTEND}:latest .
+                                    docker tag ${REGISTRY}/%DOCKER_USER%/${IMAGE_FRONTEND}:latest ${REGISTRY}/%DOCKER_USER%/${IMAGE_FRONTEND}:${BUILD_NUMBER}
+                                """
+                            }
                         }
                         echo '✅ Frontend image built successfully!'
                     }
@@ -131,7 +142,7 @@ pipeline {
                     sshUserPrivateKey(credentialsId: 'server-ssh-key', keyFileVariable: 'SSH_KEY', usernameVariable: 'SSH_USER')
                 ]) {
                     bat """
-                        ssh -i %SSH_KEY% %SSH_USER%@103.20.96.174 "
+                        ssh -i   "
                             echo %DOCKER_PASS% | docker login ${REGISTRY} -u %DOCKER_USER% --password-stdin && \
                             cd /opt/medical-consultation && \
                             docker-compose pull && \
@@ -156,14 +167,14 @@ pipeline {
                 echo "   • Job: ${JOB_NAME}"
                 echo ''
                 echo '🐳 Docker Images Published:'
-                echo "   • Backend:  ${REGISTRY}/${DOCKER_USERNAME}/${IMAGE_BACKEND}:latest"
-                echo "   • Backend:  ${REGISTRY}/${DOCKER_USERNAME}/${IMAGE_BACKEND}:${BUILD_NUMBER}"
-                echo "   • Frontend: ${REGISTRY}/${DOCKER_USERNAME}/${IMAGE_FRONTEND}:latest"
-                echo "   • Frontend: ${REGISTRY}/${DOCKER_USERNAME}/${IMAGE_FRONTEND}:${BUILD_NUMBER}"
+                echo "   • Backend:  ${REGISTRY}/[username]/${IMAGE_BACKEND}:latest"
+                echo "   • Backend:  ${REGISTRY}/[username]/${IMAGE_BACKEND}:${BUILD_NUMBER}"
+                echo "   • Frontend: ${REGISTRY}/[username]/${IMAGE_FRONTEND}:latest"
+                echo "   • Frontend: ${REGISTRY}/[username]/${IMAGE_FRONTEND}:${BUILD_NUMBER}"
                 echo ''
                 echo '🔗 Pull Commands:'
-                echo "   docker pull ${REGISTRY}/${DOCKER_USERNAME}/${IMAGE_BACKEND}:latest"
-                echo "   docker pull ${REGISTRY}/${DOCKER_USERNAME}/${IMAGE_FRONTEND}:latest"
+                echo "   docker pull ${REGISTRY}/[username]/${IMAGE_BACKEND}:latest"
+                echo "   docker pull ${REGISTRY}/[username]/${IMAGE_FRONTEND}:latest"
                 echo ''
                 echo '🚀 Next Steps:'
                 echo '   • Images are ready for deployment'
@@ -176,8 +187,12 @@ pipeline {
 
     post {
         always {
-            echo '🧹 Cleaning up workspace...'
-            cleanWs()
+            script {
+                if (env.NODE_NAME != null) {
+                    echo '🧹 Cleaning up workspace...'
+                    cleanWs()
+                }
+            }
         }
         
         success {

@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Check if user is an admin, otherwise redirect
-    if (getRole() !== 'Admin') {
+    const user = authService.getCurrentUser();
+    if (!user || user.role !== 'admin') {
         showNotification('Bạn không có quyền truy cập trang này.', 'error');
         setTimeout(() => {
             window.location.href = 'login.html';
@@ -8,10 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    // Initialize section navigation first (should work even if API fails)
-    initSectionNavigation();
-
     // Load initial data for the overview section
+    // Note: Navigation is handled by dashboard.js
     loadAdminOverview().catch(err => console.error('Failed to load overview:', err));
     loadAdminUsers().catch(err => console.error('Failed to load users:', err));
     loadAdminAppointments().catch(err => console.error('Failed to load appointments:', err));
@@ -19,36 +18,6 @@ document.addEventListener('DOMContentLoaded', () => {
     loadAdminAnalytics().catch(err => console.error('Failed to load analytics:', err));
     loadAdminSettings().catch(err => console.error('Failed to load settings:', err));
 });
-
-// --- SECTION NAVIGATION ---
-function initSectionNavigation() {
-    const navItems = document.querySelectorAll('.sidebar-nav .nav-item');
-    const sections = document.querySelectorAll('.dashboard-section');
-
-    console.log('Init navigation - found nav items:', navItems.length, 'sections:', sections.length);
-
-    navItems.forEach(item => {
-        item.addEventListener('click', (e) => {
-            e.preventDefault();
-            const sectionId = item.getAttribute('data-section');
-            console.log('Clicked section:', sectionId);
-
-            // Remove active class from all nav items and sections
-            navItems.forEach(nav => nav.classList.remove('active'));
-            sections.forEach(section => section.classList.remove('active'));
-
-            // Add active class to clicked nav item and corresponding section
-            item.classList.add('active');
-            const targetSection = document.getElementById(sectionId);
-            if (targetSection) {
-                targetSection.classList.add('active');
-                console.log('Section activated:', sectionId);
-            } else {
-                console.error('Section not found:', sectionId);
-            }
-        });
-    });
-}
 
 // --- OVERVIEW SECTION ---
 async function loadAdminOverview() {

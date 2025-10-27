@@ -3,7 +3,7 @@
 // API Configuration - Auto-detect environment
 const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
 const BACKEND_URL = isProduction 
-  ? 'https://medical-consultation-backend-vhh8.onrender.com' // TODO: Update after backend deployment
+  ? 'https://medical-consultation-backend.onrender.com'
   : 'http://localhost:8000';
 
 // Global variables

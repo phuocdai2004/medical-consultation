@@ -170,9 +170,8 @@ async function handleRegistration(e) {
             userData.qualifications = data.qualifications ? data.qualifications.split('\n').filter(q => q.trim()) : [];
         }
         
-        // Call registration API
-        const API_URL = 'http://localhost:8000/api';
-        const response = await fetch(`${API_URL}/auth/register`, {
+        // Call registration API using global API_BASE_URL from main.js
+        const response = await fetch(`${window.API_BASE_URL}/auth/register`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -326,8 +325,8 @@ function isValidEmail(email) {
 
 async function checkEmailAvailability(email) {
     try {
-        const API_URL = 'http://localhost:8000/api';
-        const response = await fetch(`${API_URL}/auth/check-email`, {
+        // Use global API_BASE_URL from main.js
+        const response = await fetch(`${window.API_BASE_URL}/auth/check-email`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

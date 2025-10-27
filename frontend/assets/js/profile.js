@@ -31,9 +31,9 @@ async function loadUserProfile() {
             return;
         }
 
-        console.log('📡 Fetching profile from: http://localhost:8000/api/users/me/profile');
+        console.log('📡 Fetching profile from:', `${window.API_BASE_URL}/users/me/profile`);
         
-        const response = await fetch('http://localhost:8000/api/users/me/profile', {
+        const response = await fetch(`${window.API_BASE_URL}/users/me/profile`, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -108,7 +108,7 @@ function initProfileForm() {
             const data = Object.fromEntries(formData);
             
             const token = localStorage.getItem('token');
-            const response = await fetch('http://localhost:8000/api/users/me/profile', {
+            const response = await fetch(`${window.API_BASE_URL}/users/me/profile`, {
                 method: 'PUT',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -172,7 +172,7 @@ function initChangePasswordForm() {
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang đổi mật khẩu...';
             
             const token = localStorage.getItem('token');
-            const response = await fetch('http://localhost:8000/api/users/me/change-password', {
+            const response = await fetch(`${window.API_BASE_URL}/users/me/change-password`, {
                 method: 'PUT',
                 headers: {
                     'Authorization': `Bearer ${token}`,

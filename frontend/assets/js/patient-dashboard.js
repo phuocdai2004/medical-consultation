@@ -537,7 +537,7 @@ window.showProfile = async function() {
     try {
         // Load user profile
         const token = localStorage.getItem('token');
-        const response = await fetch('http://localhost:8000/api/users/me/profile', {
+        const response = await fetch(`${window.API_BASE_URL}/users/me/profile`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -659,7 +659,7 @@ window.updateProfile = async function(event) {
         const data = Object.fromEntries(formData);
         
         const token = localStorage.getItem('token');
-        const response = await fetch('http://localhost:8000/api/users/me/profile', {
+        const response = await fetch(`${window.API_BASE_URL}/users/me/profile`, {
             method: 'PUT',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -717,30 +717,30 @@ function loadMedicalRecords() {
     const container = document.getElementById('recordsContainer');
     if (!container) return;
     
-    // D? li?u m?u - sau này s? l?y t? API
+    // D? li?u m?u - sau nï¿½y s? l?y t? API
     const medicalRecords = [
         {
             id: 1,
             date: '2024-10-15',
-            type: 'Khám t?ng quát',
+            type: 'Khï¿½m t?ng quï¿½t',
             doctor: 'BS. Nguy?n Van A',
-            diagnosis: 'S?c kh?e t?t, ti?p t?c duy trì',
+            diagnosis: 'S?c kh?e t?t, ti?p t?c duy trï¿½',
             files: ['ket-qua-xet-nghiem.pdf', 'phim-chup-xquang.jpg']
         },
         {
             id: 2,
             date: '2024-09-20',
-            type: 'Khám chuyên khoa tim m?ch',
+            type: 'Khï¿½m chuyï¿½n khoa tim m?ch',
             doctor: 'BS. Tr?n Th? B',
-            diagnosis: 'Huy?t áp bình thu?ng, ECG không có b?t thu?ng',
+            diagnosis: 'Huy?t ï¿½p bï¿½nh thu?ng, ECG khï¿½ng cï¿½ b?t thu?ng',
             files: ['ecg-result.pdf']
         },
         {
             id: 3,
             date: '2024-08-10',
-            type: 'Xét nghi?m máu',
-            doctor: 'BS. Lê Van C',
-            diagnosis: 'Ch? s? trong gi?i h?n bình thu?ng',
+            type: 'Xï¿½t nghi?m mï¿½u',
+            doctor: 'BS. Lï¿½ Van C',
+            diagnosis: 'Ch? s? trong gi?i h?n bï¿½nh thu?ng',
             files: ['blood-test.pdf']
         }
     ];
@@ -749,10 +749,10 @@ function loadMedicalRecords() {
         container.innerHTML = `
             <div class="empty-state">
                 <i class="fas fa-file-medical"></i>
-                <h3>Chua có h? so y t? nào</h3>
-                <p>H? so y t? c?a b?n s? du?c luu tr? t?i dây sau m?i l?n khám.</p>
+                <h3>Chua cï¿½ h? so y t? nï¿½o</h3>
+                <p>H? so y t? c?a b?n s? du?c luu tr? t?i dï¿½y sau m?i l?n khï¿½m.</p>
                 <button class="btn btn-primary" onclick="showAddRecordModal()">
-                    <i class="fas fa-plus"></i> Thêm h? so
+                    <i class="fas fa-plus"></i> Thï¿½m h? so
                 </button>
             </div>
         `;
@@ -784,7 +784,7 @@ function loadMedicalRecords() {
                 </div>
                 ${record.files && record.files.length > 0 ? `
                     <div class="record-files">
-                        <strong><i class="fas fa-paperclip"></i> T?p dính kèm:</strong>
+                        <strong><i class="fas fa-paperclip"></i> T?p dï¿½nh kï¿½m:</strong>
                         <div class="file-list">
                             ${record.files.map(file => `
                                 <a href="#" class="file-item" onclick="viewFile('${file}'); return false;">
@@ -826,19 +826,19 @@ function getFileIcon(filename) {
 }
 
 window.viewFile = function(filename) {
-    alert(`Xem file: ${filename}\n(Tính nang dang phát tri?n)`);
+    alert(`Xem file: ${filename}\n(Tï¿½nh nang dang phï¿½t tri?n)`);
 }
 
 window.viewRecord = function(recordId) {
-    alert(`Xem chi ti?t h? so #${recordId}\n(Tính nang dang phát tri?n)`);
+    alert(`Xem chi ti?t h? so #${recordId}\n(Tï¿½nh nang dang phï¿½t tri?n)`);
 }
 
 window.downloadRecord = function(recordId) {
-    alert(`T?i xu?ng h? so #${recordId}\n(Tính nang dang phát tri?n)`);
+    alert(`T?i xu?ng h? so #${recordId}\n(Tï¿½nh nang dang phï¿½t tri?n)`);
 }
 
 window.showAddRecordModal = function() {
-    alert('Tính nang thêm h? so dang du?c phát tri?n');
+    alert('Tï¿½nh nang thï¿½m h? so dang du?c phï¿½t tri?n');
 }
 
 // Auto load medical records

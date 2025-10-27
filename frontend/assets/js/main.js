@@ -14,6 +14,22 @@ window.authToken = localStorage.getItem('authToken');
 console.log('🌐 Environment:', isProduction ? 'Production' : 'Development');
 console.log('🔗 API Base URL:', window.API_BASE_URL);
 
+// Warm up the backend on page load (helps with Render cold starts)
+async function wakeBackend() {
+    try {
+        const res = await fetch(`${window.API_BASE_URL}/health`, { method: 'GET' });
+        console.log('Backend wake:', res.status);
+    } catch (e) {
+        console.warn('Backend wake failed:', e.message);
+    }
+}
+
+// Only attempt wake in production to avoid noisy local requests
+if (isProduction) {
+    // fire-and-forget
+    wakeBackend();
+}
+
 // Utility functions
 const utils = {
     // Show notification

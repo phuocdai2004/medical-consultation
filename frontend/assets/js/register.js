@@ -325,6 +325,7 @@ function isValidEmail(email) {
 
 async function checkEmailAvailability(email) {
     try {
+        const emailInput = document.getElementById('email');
         // Use global API_BASE_URL from main.js
         const response = await fetch(`${window.API_BASE_URL}/auth/check-email`, {
             method: 'POST',
@@ -334,16 +335,22 @@ async function checkEmailAvailability(email) {
             body: JSON.stringify({ email })
         });
         
+        if (!response.ok) {
+            // Route doesn't exist or server error - just skip validation
+            console.warn('Email check unavailable');
+            return;
+        }
+        
         const result = await response.json();
         const errorElement = document.getElementById('emailError');
         
         if (!result.available) {
-            emailInput.classList.add('error');
+            if (emailInput) emailInput.classList.add('error');
             if (errorElement) {
                 errorElement.textContent = 'Email đã được sử dụng';
             }
         } else {
-            emailInput.classList.remove('error');
+            if (emailInput) emailInput.classList.remove('error');
             if (errorElement) {
                 errorElement.textContent = '';
             }

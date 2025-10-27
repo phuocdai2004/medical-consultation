@@ -460,6 +460,35 @@ const changePassword = async (req, res) => {
   }
 };
 
+// @desc    Check email availability
+// @route   POST /api/auth/check-email
+// @access  Public
+const checkEmail = async (req, res) => {
+  try {
+    const { email } = req.body;
+    
+    if (!email) {
+      return res.status(400).json({
+        success: false,
+        message: 'Email is required'
+      });
+    }
+    
+    const existingUser = await User.findOne({ email: email.toLowerCase() });
+    
+    res.status(200).json({
+      success: true,
+      available: !existingUser
+    });
+  } catch (error) {
+    console.error('Check email error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error'
+    });
+  }
+};
+
 module.exports = {
   register,
   login,
@@ -467,5 +496,6 @@ module.exports = {
   resetPassword,
   getMe,
   updateMe,
-  changePassword
+  changePassword,
+  checkEmail
 };

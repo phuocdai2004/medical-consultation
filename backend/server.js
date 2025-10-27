@@ -80,6 +80,47 @@ app.get('/api/health', (req, res) => {
   });
 });
 
+// Temporary endpoint to create admin (remove after first use)
+app.post('/api/setup-admin', async (req, res) => {
+  try {
+    const User = require('./models/User');
+    
+    // Check if admin already exists
+    const existingAdmin = await User.findOne({ role: 'admin' });
+    if (existingAdmin) {
+      return res.status(400).json({
+        success: false,
+        message: 'Admin already exists'
+      });
+    }
+    
+    // Create admin
+    const admin = await User.create({
+      email: 'admin@medical.com',
+      password: 'Admin123456',
+      fullName: 'System Administrator',
+      phone: '0900000000',
+      role: 'admin',
+      isActive: true,
+      isVerified: true
+    });
+    
+    res.status(201).json({
+      success: true,
+      message: 'Admin created successfully',
+      data: {
+        email: admin.email,
+        role: admin.role
+      }
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
+});
+
 // API routes
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);

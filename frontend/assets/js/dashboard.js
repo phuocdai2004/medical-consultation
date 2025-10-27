@@ -67,6 +67,7 @@ function getUserInitials(fullName) {
 function initNavigation() {
     // Handle sidebar navigation
     const navItems = document.querySelectorAll('.sidebar-nav .nav-item');
+    console.log('Dashboard.js - Init navigation, found nav items:', navItems.length);
     
     navItems.forEach(item => {
         item.addEventListener('click', (e) => {
@@ -75,6 +76,7 @@ function initNavigation() {
             // If item has data-section, prevent default and show section
             if (section) {
                 e.preventDefault();
+                console.log('Dashboard.js - Clicked section:', section);
                 showSection(section);
                 setActiveNavItem(item);
             }
@@ -84,6 +86,7 @@ function initNavigation() {
     
     // Handle URL hash for direct section access
     const hash = window.location.hash.slice(1);
+    console.log('Dashboard.js - Current hash:', hash);
     if (hash) {
         showSection(hash);
         const activeItem = document.querySelector(`[data-section="${hash}"]`);
@@ -94,22 +97,28 @@ function initNavigation() {
 }
 
 function showSection(sectionId) {
+    console.log('Dashboard.js - showSection called for:', sectionId);
     // Hide all sections
     const sections = document.querySelectorAll('.dashboard-section');
+    console.log('Dashboard.js - Found sections:', sections.length);
     sections.forEach(section => {
         section.classList.remove('active');
     });
     
     // Show target section
     const targetSection = document.getElementById(sectionId);
+    console.log('Dashboard.js - Target section found:', !!targetSection);
     if (targetSection) {
         targetSection.classList.add('active');
+        console.log('Dashboard.js - Section activated:', sectionId);
         
         // Update URL hash
         window.location.hash = sectionId;
         
         // Load section data if needed
         loadSectionData(sectionId);
+    } else {
+        console.error('Dashboard.js - Section not found:', sectionId);
     }
 }
 

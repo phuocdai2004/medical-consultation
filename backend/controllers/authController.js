@@ -66,14 +66,13 @@ const register = async (req, res) => {
     // Generate token
     const token = generateToken(user._id);
 
-    // Send welcome email
-    try {
-      await emailService.sendWelcomeEmail(user.email, user.fullName, user.role);
-    } catch (emailError) {
-      console.error('Failed to send welcome email:', emailError);
-      // Don't fail registration if email fails
-    }
+    // Send welcome email asynchronously (don't wait for it)
+    emailService.sendWelcomeEmail(user.email, user.fullName, user.role)
+      .catch(emailError => {
+        console.error('Failed to send welcome email:', emailError.message);
+      });
 
+    // Return success immediately without waiting for email
     res.status(201).json({
       success: true,
       message: 'User registered successfully',

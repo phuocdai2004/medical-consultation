@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Check if user is an admin, otherwise redirect
-    const user = authService.getCurrentUser();
+    const user = auth.getCurrentUser();
     if (!user || user.role !== 'admin') {
         showNotification('Bạn không có quyền truy cập trang này.', 'error');
         setTimeout(() => {

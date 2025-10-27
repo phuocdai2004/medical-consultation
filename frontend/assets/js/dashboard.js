@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function initDashboard() {
     // Initialize dashboard based on user role
-    const user = authService.getCurrentUser();
+    const user = auth.getCurrentUser();
     if (!user) {
         window.location.href = 'login.html';
         return;

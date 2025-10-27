@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Setup Admin</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            text-align: center;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            padding: 15px 30px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔐 Setup Admin User</h1>
+    <p>Click button below để tạo admin user trên production</p>
+    
+    <button id="setupBtn" onclick="setupAdmin()">Tạo Admin User</button>
+    
+    <div id="result"></div>
+
+    <script>
+        async function setupAdmin() {
+            const btn = document.getElementById('setupBtn');
+            const result = document.getElementById('result');
+            
+            btn.disabled = true;
+            btn.textContent = 'Đang tạo...';
+            result.innerHTML = '';
+            
+            try {
+                const response = await fetch('https://medical-consultation-backend.onrender.com/api/setup-admin', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    result.className = 'success';
+                    result.innerHTML = `
+                        <h3>✅ Admin đã được tạo thành công!</h3>
+                        <p><strong>Email:</strong> admin@medical.com</p>
+                        <p><strong>Password:</strong> Admin123456</p>
+                        <p><strong>Role:</strong> admin</p>
+                        <p><a href="/pages/login.html">→ Đăng nhập ngay</a></p>
+                    `;
+                } else {
+                    result.className = 'error';
+                    result.innerHTML = `<p>⚠️ ${data.message}</p>`;
+                }
+            } catch (error) {
+                result.className = 'error';
+                result.innerHTML = `<p>❌ Lỗi: ${error.message}</p>`;
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Tạo Admin User';
+            }
+        }
+    </script>
+</body>
+</html>

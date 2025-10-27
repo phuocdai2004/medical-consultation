@@ -54,7 +54,7 @@ exports.getUsers = async (req, res) => {
 // @route   POST /api/admin/users
 // @access  Private/Admin
 exports.createUser = async (req, res) => {
-    const { fullName, email, password, role } = req.body;
+    const { fullName, email, phone, password, role, specialization, licenseNumber, experience, consultationFee } = req.body;
 
     try {
         let user = await User.findOne({ email });
@@ -62,19 +62,40 @@ exports.createUser = async (req, res) => {
             return res.status(400).json({ message: 'Email đã tồn tại' });
         }
 
-        user = new User({
+        const userData = {
             fullName,
             email,
+            phone,
             password, // Password will be hashed by the pre-save hook in the model
-            role
+            role,
+            isActive: true,
+            isVerified: true
+        };
+
+        // Add doctor-specific fields if role is doctor
+        if (role === 'doctor') {
+            userData.specialization = specialization;
+            userData.licenseNumber = licenseNumber;
+            userData.experience = experience;
+            userData.consultationFee = consultationFee;
+        }
+
+        user = new User(userData);
+        await user.save();
+        
+        res.status(201).json({ 
+            message: 'Người dùng đã được tạo thành công',
+            user: {
+                id: user._id,
+                fullName: user.fullName,
+                email: user.email,
+                role: user.role
+            }
         });
 
-        await user.save();
-        res.status(201).json({ message: 'Người dùng đã được tạo thành công' });
-
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Lỗi máy chủ' });
+        console.error('Create user error:', error);
+        res.status(500).json({ message: error.message || 'Lỗi máy chủ' });
     }
 };
 

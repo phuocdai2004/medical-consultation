@@ -140,17 +140,42 @@ function showAddUserModal() {
                 <input type="email" id="email" required>
             </div>
             <div class="form-group">
+                <label for="phone">Số điện thoại</label>
+                <input type="tel" id="phone" placeholder="0900000000" required>
+            </div>
+            <div class="form-group">
                 <label for="password">Mật khẩu</label>
-                <input type="password" id="password" required>
+                <input type="password" id="password" required minlength="6">
             </div>
             <div class="form-group">
                 <label for="role">Vai trò</label>
                 <select id="role">
-                    <option value="Patient">Bệnh nhân</option>
-                    <option value="Doctor">Bác sĩ</option>
-                    <option value="Admin">Admin</option>
+                    <option value="patient">Bệnh nhân</option>
+                    <option value="doctor">Bác sĩ</option>
+                    <option value="admin">Admin</option>
                 </select>
             </div>
+            
+            <!-- Doctor-specific fields -->
+            <div id="doctorFields" style="display: none;">
+                <div class="form-group">
+                    <label for="specialization">Chuyên khoa</label>
+                    <input type="text" id="specialization" placeholder="VD: Tim mạch, Nội khoa...">
+                </div>
+                <div class="form-group">
+                    <label for="licenseNumber">Số chứng chỉ hành nghề</label>
+                    <input type="text" id="licenseNumber">
+                </div>
+                <div class="form-group">
+                    <label for="experience">Kinh nghiệm (năm)</label>
+                    <input type="number" id="experience" min="0" max="50">
+                </div>
+                <div class="form-group">
+                    <label for="consultationFee">Phí tư vấn (VNĐ)</label>
+                    <input type="number" id="consultationFee" min="0" step="1000">
+                </div>
+            </div>
+            
             <div class="form-actions">
                 <button type="submit" class="btn btn-primary">Thêm</button>
                 <button type="button" class="btn" onclick="closeModal()">Hủy</button>
@@ -159,15 +184,41 @@ function showAddUserModal() {
     `;
     showModal(modalContent);
 
+    // Show/hide doctor fields based on role selection
+    const roleSelect = document.getElementById('role');
+    const doctorFields = document.getElementById('doctorFields');
+    const doctorInputs = doctorFields.querySelectorAll('input');
+    
+    roleSelect.addEventListener('change', () => {
+        if (roleSelect.value === 'doctor') {
+            doctorFields.style.display = 'block';
+            doctorInputs.forEach(input => input.required = true);
+        } else {
+            doctorFields.style.display = 'none';
+            doctorInputs.forEach(input => input.required = false);
+        }
+    });
+
     document.getElementById('addUserForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         const fullName = document.getElementById('fullName').value;
         const email = document.getElementById('email').value;
+        const phone = document.getElementById('phone').value;
         const password = document.getElementById('password').value;
         const role = document.getElementById('role').value;
 
+        const userData = { fullName, email, phone, password, role };
+
+        // Add doctor-specific fields if role is doctor
+        if (role === 'doctor') {
+            userData.specialization = document.getElementById('specialization').value;
+            userData.licenseNumber = document.getElementById('licenseNumber').value;
+            userData.experience = parseInt(document.getElementById('experience').value);
+            userData.consultationFee = parseFloat(document.getElementById('consultationFee').value);
+        }
+
         try {
-            await api.post('/admin/users', { fullName, email, password, role });
+            await api.post('/admin/users', userData);
             showNotification('Thêm người dùng thành công!', 'success');
             closeModal();
             loadAdminUsers();

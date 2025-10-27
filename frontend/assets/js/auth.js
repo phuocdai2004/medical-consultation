@@ -56,6 +56,8 @@ function initFormValidation() {
 }
 
 function validateField(field) {
+    if (!field) return true;
+    
     const name = field.name;
     const value = field.value.trim();
     const errorElement = document.getElementById(`${name}Error`);

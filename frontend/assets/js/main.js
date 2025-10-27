@@ -1,9 +1,18 @@
 // Main JavaScript file for common functionality
 
+// API Configuration - Auto-detect environment
+const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
+const BACKEND_URL = isProduction 
+  ? 'https://medical-consultation-backend-vhh8.onrender.com' // TODO: Update after backend deployment
+  : 'http://localhost:8000';
+
 // Global variables
-window.API_BASE_URL = 'http://localhost:8000/api';
+window.API_BASE_URL = `${BACKEND_URL}/api`;
 window.currentUser = null;
 window.authToken = localStorage.getItem('authToken');
+
+console.log('🌐 Environment:', isProduction ? 'Production' : 'Development');
+console.log('🔗 API Base URL:', window.API_BASE_URL);
 
 // Utility functions
 const utils = {

@@ -20,19 +20,32 @@ app.use(helmet());
 // CORS configuration
 app.use(cors({
   origin: function (origin, callback) {
-    // Allow requests from both localhost and 127.0.0.1
+    // Allow requests from localhost and production domains
     const allowedOrigins = [
+      'http://localhost:3000',
+      'http://localhost:8000',
       'http://localhost:8081',
-      process.env.CLIENT_URL || 'http://localhost:8081'
-    ];
+      'http://127.0.0.1:3000',
+      'http://127.0.0.1:8000',
+      'https://medical-consultation-3.onrender.com',
+      process.env.CLIENT_URL
+    ].filter(Boolean); // Remove undefined values
     
-    if (!origin || allowedOrigins.includes(origin)) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) {
+      return callback(null, true);
+    }
+    
+    if (allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
+      console.warn(`CORS blocked origin: ${origin}`);
       callback(new Error('Not allowed by CORS'));
     }
   },
-  credentials: true
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 // Rate limiting

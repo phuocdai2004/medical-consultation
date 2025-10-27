@@ -8,16 +8,16 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    // Initialize section navigation
+    // Initialize section navigation first (should work even if API fails)
     initSectionNavigation();
 
     // Load initial data for the overview section
-    loadAdminOverview();
-    loadAdminUsers();
-    loadAdminAppointments();
-    loadAdminReports();
-    loadAdminAnalytics();
-    loadAdminSettings();
+    loadAdminOverview().catch(err => console.error('Failed to load overview:', err));
+    loadAdminUsers().catch(err => console.error('Failed to load users:', err));
+    loadAdminAppointments().catch(err => console.error('Failed to load appointments:', err));
+    loadAdminReports().catch(err => console.error('Failed to load reports:', err));
+    loadAdminAnalytics().catch(err => console.error('Failed to load analytics:', err));
+    loadAdminSettings().catch(err => console.error('Failed to load settings:', err));
 });
 
 // --- SECTION NAVIGATION ---
@@ -25,10 +25,13 @@ function initSectionNavigation() {
     const navItems = document.querySelectorAll('.sidebar-nav .nav-item');
     const sections = document.querySelectorAll('.dashboard-section');
 
+    console.log('Init navigation - found nav items:', navItems.length, 'sections:', sections.length);
+
     navItems.forEach(item => {
         item.addEventListener('click', (e) => {
             e.preventDefault();
             const sectionId = item.getAttribute('data-section');
+            console.log('Clicked section:', sectionId);
 
             // Remove active class from all nav items and sections
             navItems.forEach(nav => nav.classList.remove('active'));
@@ -39,6 +42,9 @@ function initSectionNavigation() {
             const targetSection = document.getElementById(sectionId);
             if (targetSection) {
                 targetSection.classList.add('active');
+                console.log('Section activated:', sectionId);
+            } else {
+                console.error('Section not found:', sectionId);
             }
         });
     });

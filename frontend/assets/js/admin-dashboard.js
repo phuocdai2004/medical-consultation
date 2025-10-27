@@ -8,6 +8,9 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
+    // Initialize section navigation
+    initSectionNavigation();
+
     // Load initial data for the overview section
     loadAdminOverview();
     loadAdminUsers();
@@ -16,6 +19,30 @@ document.addEventListener('DOMContentLoaded', () => {
     loadAdminAnalytics();
     loadAdminSettings();
 });
+
+// --- SECTION NAVIGATION ---
+function initSectionNavigation() {
+    const navItems = document.querySelectorAll('.sidebar-nav .nav-item');
+    const sections = document.querySelectorAll('.dashboard-section');
+
+    navItems.forEach(item => {
+        item.addEventListener('click', (e) => {
+            e.preventDefault();
+            const sectionId = item.getAttribute('data-section');
+
+            // Remove active class from all nav items and sections
+            navItems.forEach(nav => nav.classList.remove('active'));
+            sections.forEach(section => section.classList.remove('active'));
+
+            // Add active class to clicked nav item and corresponding section
+            item.classList.add('active');
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.classList.add('active');
+            }
+        });
+    });
+}
 
 // --- OVERVIEW SECTION ---
 async function loadAdminOverview() {

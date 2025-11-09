@@ -27,6 +27,7 @@ app.use(cors({
       'http://localhost:8081',
       'http://127.0.0.1:3000',
       'http://127.0.0.1:8000',
+      'http://127.0.0.1:8081',
       'https://medical-consultation-3.onrender.com',
       process.env.CLIENT_URL
     ].filter(Boolean); // Remove undefined values

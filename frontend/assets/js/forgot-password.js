@@ -69,7 +69,7 @@ async function handleForgotPassword(e) {
     try {
         const email = emailInput.value.trim();
         
-        const response = await apiService.forgotPassword(email);
+        const response = await auth.forgotPassword(email);
         
         if (response.success) {
             showSuccessMessage(email);
@@ -161,7 +161,7 @@ async function handleResendEmail() {
     resendBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang gửi...';
     
     try {
-        const response = await apiService.forgotPassword(email);
+        const response = await auth.forgotPassword(email);
         
         if (response.success) {
             utils.showNotification('Email đã được gửi lại', 'success');
@@ -245,7 +245,7 @@ async function handleResetPassword(e) {
     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang đặt lại...';
     
     try {
-        const response = await apiService.resetPassword(window.resetToken, newPassword);
+        const response = await auth.resetPassword(window.resetToken, newPassword);
         
         if (response.success) {
             utils.showNotification('Đặt lại mật khẩu thành công!', 'success');

@@ -349,7 +349,93 @@ function loadAdminAnalytics() {
 }
 
 function loadAdminSettings() {
-    document.getElementById('adminSettingsContainer').innerHTML = '<p>Chức năng cài đặt hệ thống đang được phát triển.</p>';
+    const container = document.getElementById('adminSettingsContainer');
+    container.innerHTML = `
+        <div class="settings-section">
+            <h3><i class="fas fa-cogs"></i> Cài Đặt Hệ Thống</h3>
+            
+            <div class="settings-group">
+                <h4>Cài Đặt Chung</h4>
+                <div class="setting-item">
+                    <label>Tên Ứng Dụng</label>
+                    <input type="text" id="appName" value="Medical Consultation" class="setting-input">
+                </div>
+                <div class="setting-item">
+                    <label>Email Liên Hệ</label>
+                    <input type="email" id="contactEmail" value="info@medical.com" class="setting-input">
+                </div>
+                <div class="setting-item">
+                    <label>Số Điện Thoại</label>
+                    <input type="tel" id="contactPhone" value="1900-0000" class="setting-input">
+                </div>
+            </div>
+            
+            <div class="settings-group">
+                <h4>Cài Đặt Hẹn Khám</h4>
+                <div class="setting-item">
+                    <label>Thời Gian Tối Thiểu Giữa Các Hẹn (phút)</label>
+                    <input type="number" id="minAppointmentGap" value="30" min="5" max="120" class="setting-input">
+                </div>
+                <div class="setting-item">
+                    <label>Giờ Làm Việc Bắt Đầu</label>
+                    <input type="time" id="workStartTime" value="08:00" class="setting-input">
+                </div>
+                <div class="setting-item">
+                    <label>Giờ Làm Việc Kết Thúc</label>
+                    <input type="time" id="workEndTime" value="17:00" class="setting-input">
+                </div>
+            </div>
+            
+            <div class="settings-group">
+                <h4>Cài Đặt Bảo Mật</h4>
+                <div class="setting-item">
+                    <label><input type="checkbox" id="requireEmailVerification" checked> Yêu Cầu Xác Minh Email</label>
+                </div>
+                <div class="setting-item">
+                    <label><input type="checkbox" id="requirePhoneVerification"> Yêu Cầu Xác Minh Số Điện Thoại</label>
+                </div>
+                <div class="setting-item">
+                    <label>Thời Gian Hết Hiệu Lực JWT (giờ)</label>
+                    <input type="number" id="jwtExpiry" value="168" min="1" max="720" class="setting-input">
+                </div>
+            </div>
+            
+            <div class="settings-actions">
+                <button class="btn btn-primary" onclick="saveAdminSettings()">
+                    <i class="fas fa-save"></i> Lưu Cài Đặt
+                </button>
+                <button class="btn btn-secondary" onclick="resetAdminSettings()">
+                    <i class="fas fa-redo"></i> Khôi Phục Mặc Định
+                </button>
+            </div>
+        </div>
+    `;
+}
+
+function saveAdminSettings() {
+    const settings = {
+        appName: document.getElementById('appName').value,
+        contactEmail: document.getElementById('contactEmail').value,
+        contactPhone: document.getElementById('contactPhone').value,
+        minAppointmentGap: parseInt(document.getElementById('minAppointmentGap').value),
+        workStartTime: document.getElementById('workStartTime').value,
+        workEndTime: document.getElementById('workEndTime').value,
+        requireEmailVerification: document.getElementById('requireEmailVerification').checked,
+        requirePhoneVerification: document.getElementById('requirePhoneVerification').checked,
+        jwtExpiry: parseInt(document.getElementById('jwtExpiry').value)
+    };
+    
+    // Save to localStorage (in a real app, save to backend)
+    localStorage.setItem('systemSettings', JSON.stringify(settings));
+    utils.showNotification('Cài đặt đã được lưu thành công!', 'success');
+}
+
+function resetAdminSettings() {
+    if (confirm('Bạn có chắc muốn khôi phục các cài đặt mặc định?')) {
+        localStorage.removeItem('systemSettings');
+        loadAdminSettings();
+        utils.showNotification('Các cài đặt đã được khôi phục.', 'success');
+    }
 }
 
 // Helper to create a table
@@ -375,4 +461,46 @@ function createTable(headers, rows) {
     });
 
     return table;
+}
+
+// Modal helper functions
+function showModal(content) {
+    const modalContainer = document.getElementById('modal-container') || createModalContainer();
+    const modal = document.createElement('div');
+    modal.className = 'modal active';
+    modal.innerHTML = `
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                ${content}
+            </div>
+        </div>
+    `;
+    modalContainer.innerHTML = '';
+    modalContainer.appendChild(modal);
+}
+
+function closeModal() {
+    const modalContainer = document.getElementById('modal-container');
+    if (modalContainer) {
+        const modal = modalContainer.querySelector('.modal');
+        if (modal) {
+            modal.classList.remove('active');
+            setTimeout(() => {
+                modalContainer.innerHTML = '';
+            }, 300);
+        }
+    }
+}
+
+function createModalContainer() {
+    let container = document.getElementById('modal-container');
+    if (!container) {
+        container = document.createElement('div');
+        container.id = 'modal-container';
+        document.body.appendChild(container);
+    }
+    return container;
 }

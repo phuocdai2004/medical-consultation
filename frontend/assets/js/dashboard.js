@@ -415,3 +415,29 @@ window.dashboardUtils = {
     formatCurrency,
     animateNumber
 };
+
+// Stub functions for missing section data loaders
+async function loadAppointments() {
+    console.log('loadAppointments called');
+    // TODO: Implement loading appointments data
+}
+
+async function loadDoctors() {
+    console.log('loadDoctors called');
+    // TODO: Implement loading doctors data
+}
+
+async function loadMedicalRecords() {
+    console.log('loadMedicalRecords called');
+    // TODO: Implement loading medical records data
+}
+
+async function loadPrescriptions() {
+    console.log('loadPrescriptions called');
+    // TODO: Implement loading prescriptions data
+}
+
+async function loadHealthTracking() {
+    console.log('loadHealthTracking called');
+    // TODO: Implement loading health tracking data
+}

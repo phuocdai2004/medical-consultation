@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Check if user is an admin, otherwise redirect
     const user = auth.getCurrentUser();
     if (!user || user.role !== 'admin') {
-        showNotification('Bạn không có quyền truy cập trang này.', 'error');
+        utils.showNotification('Bạn không có quyền truy cập trang này.', 'error');
         setTimeout(() => {
             window.location.href = 'login.html';
         }, 2000);
@@ -34,7 +34,7 @@ async function loadAdminOverview() {
 
     } catch (error) {
         console.error('Failed to load admin overview:', error);
-        showNotification('Không thể tải dữ liệu tổng quan.', 'error');
+        utils.utils.showNotification('Không thể tải dữ liệu tổng quan.', 'error');
     }
 }
 
@@ -221,12 +221,12 @@ function showAddUserModal() {
 
         try {
             await api.post('/admin/users', userData);
-            showNotification('Thêm người dùng thành công!', 'success');
+            utils.showNotification('Thêm người dùng thành công!', 'success');
             closeModal();
             loadAdminUsers();
             loadAdminOverview();
         } catch (error) {
-            showNotification(error.message || 'Không thể thêm người dùng.', 'error');
+            utils.showNotification(error.message || 'Không thể thêm người dùng.', 'error');
         }
     });
 }
@@ -258,11 +258,11 @@ async function showEditUserModal(userId) {
         const role = document.getElementById('editRole').value;
         try {
             await api.put(`/admin/users/${userId}/role`, { role });
-            showNotification('Cập nhật vai trò thành công!', 'success');
+            utils.showNotification('Cập nhật vai trò thành công!', 'success');
             closeModal();
             loadAdminUsers();
         } catch (error) {
-            showNotification(error.message || 'Không thể cập nhật vai trò.', 'error');
+            utils.showNotification(error.message || 'Không thể cập nhật vai trò.', 'error');
         }
     });
 }
@@ -272,10 +272,10 @@ async function toggleUserStatus(userId, isActive) {
     if (confirm(`Bạn có chắc muốn ${action} người dùng này?`)) {
         try {
             await api.put(`/admin/users/${userId}/status`, { isActive: !isActive });
-            showNotification(`Người dùng đã được ${action}.`, 'success');
+            utils.showNotification(`Người dùng đã được ${action}.`, 'success');
             loadAdminUsers();
         } catch (error) {
-            showNotification(error.message || `Không thể ${action} người dùng.`, 'error');
+            utils.showNotification(error.message || `Không thể ${action} người dùng.`, 'error');
         }
     }
 }
@@ -284,11 +284,11 @@ async function deleteUser(userId) {
     if (confirm('Bạn có chắc muốn XÓA vĩnh viễn người dùng này? Hành động này không thể hoàn tác.')) {
         try {
             await api.delete(`/admin/users/${userId}`);
-            showNotification('Người dùng đã được xóa vĩnh viễn.', 'success');
+            utils.showNotification('Người dùng đã được xóa vĩnh viễn.', 'success');
             loadAdminUsers();
             loadAdminOverview();
         } catch (error) {
-            showNotification(error.message || 'Không thể xóa người dùng.', 'error');
+            utils.showNotification(error.message || 'Không thể xóa người dùng.', 'error');
         }
     }
 }
@@ -330,10 +330,10 @@ async function cancelAdminAppointment(appointmentId) {
     if (confirm('Bạn có chắc muốn hủy lịch hẹn này?')) {
         try {
             await api.put(`/admin/appointments/${appointmentId}/cancel`);
-            showNotification('Lịch hẹn đã được hủy.', 'success');
+            utils.showNotification('Lịch hẹn đã được hủy.', 'success');
             loadAdminAppointments();
         } catch (error) {
-            showNotification(error.message || 'Không thể hủy lịch hẹn.', 'error');
+            utils.showNotification(error.message || 'Không thể hủy lịch hẹn.', 'error');
         }
     }
 }

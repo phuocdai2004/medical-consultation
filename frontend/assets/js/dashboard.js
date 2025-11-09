@@ -181,7 +181,7 @@ function initUserDropdown() {
 
 function checkAuthStatus() {
     // Check if user is still authenticated
-    const token = authService.getToken();
+    const token = window.authToken || localStorage.getItem('authToken');
     if (!token) {
         logout();
         return;

@@ -223,11 +223,11 @@ async function loadOverviewData() {
         showLoading('overview');
         
         // Load overview statistics
-        const stats = await apiService.getDashboardStats();
+        const stats = await api.get('/appointments');
         updateOverviewStats(stats);
         
         // Load recent activity
-        const activity = await apiService.getRecentActivity();
+        const activity = await api.get('/appointments');
         updateRecentActivity(activity);
         
     } catch (error) {

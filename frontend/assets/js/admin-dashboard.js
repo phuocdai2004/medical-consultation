@@ -34,7 +34,7 @@ async function loadAdminOverview() {
 
     } catch (error) {
         console.error('Failed to load admin overview:', error);
-        utils.utils.showNotification('Không thể tải dữ liệu tổng quan.', 'error');
+        utils.showNotification('Không thể tải dữ liệu tổng quan.', 'error');
     }
 }
 
